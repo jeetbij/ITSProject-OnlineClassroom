@@ -4,5 +4,5 @@ from .views import UserView
 app_name = 'AuthUser'
 
 urlpatterns = [
-	url(r'^user/', UserView.as_view(), name='userview'),
+	url(r'^user/$', UserView.as_view(), name='userview'),
 	]

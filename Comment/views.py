@@ -10,10 +10,12 @@ from Comment.serializers import CommentSerializer
 class CommentView(APIView):
 
 	def get(self, request, format=None):
-		comments = Comment.objects.all()
-		serializer = CommentSerializer(comments, many=True)
-
-		return Response(serializer.data)
+		comment = Comment.objects.get(id=request.GET.get('id'))
+		child_comments = comment.child_comment.all()
+		serialized_comments = CommentSerializer(child_comments, many=True).data
+		serializer = CommentSerializer(comment, many=False).data
+		serializer['child'] = serialized_comments
+		return Response(serializer)
 
 	def post(self, request, format=None):
 		serializer = CommentSerializer(data=request.data)

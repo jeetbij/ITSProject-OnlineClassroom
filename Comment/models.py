@@ -4,7 +4,7 @@ from django.db import models
 # Create your models here.
 
 class Comment(models.Model):
-	parent = models.ForeignKey("Comment", on_delete=models.CASCADE, null=True, blank=True, related_name="parent_comment")
+	parent = models.ForeignKey("Comment", on_delete=models.CASCADE, null=True, blank=True, related_name="child_comment")
 	commenter = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 	comment_text = models.TextField()
 	upvoters = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='all_upvoters')

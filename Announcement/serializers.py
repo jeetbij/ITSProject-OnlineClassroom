@@ -3,16 +3,20 @@ from rest_framework.serializers import ModelSerializer
 
 from Announcement.models import Announcement
 from AuthUser.models import User
+from AuthUser.serializers import UserSerializer
+from Classroom.serializers import ClassroomSerializer
 
 class AnnouncementSerializer(ModelSerializer):
-	username = serializers.CharField(source='announcer.username')
+	announcer = UserSerializer(many=False, required=False)
+	classroom = ClassroomSerializer(many=False, required=False, write_only=True)
 
 	class Meta:
 		model = Announcement
 		fields = [
 			'id',
 			'content',
-			'username',
+			'announcer',
+			'classroom',
 			'created_on',
 			]
-		read_only_fields = ['id', 'created_on']
+		read_only_fields = ['id', 'created_on', 'announcer']

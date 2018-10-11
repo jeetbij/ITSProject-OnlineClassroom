@@ -4,15 +4,17 @@ from .models import Classroom
 from AuthUser.models import User
 
 class ClassroomSerializer(ModelSerializer):
-	id = serializers.IntegerField(source='pk', read_only=True)
 	username = serializers.CharField(source='creator.username')
+	
 	class Meta:
 		model = Classroom
 		fields = [
 			'id',
 			'name',
 			'username',
+			'created_at'
 			]
+		read_only_fields = ['id', 'created_at']
 
 	def create(self, validated_data):
 		name = validated_data.pop('name')
