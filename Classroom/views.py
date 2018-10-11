@@ -83,6 +83,7 @@ class ClassroomStudentView(APIView):
 
 
 class ClassroomModeratorView(APIView):
+	
 	def get(self, request, format=None):
 		classroom_id = request.GET.get('id')
 		classroom = Classroom.objects.get(id=classroom_id)
