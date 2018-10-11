@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'AuthUser',
     'Classroom',
     'Comment',
+    'Announcement',
 ]
 
 MIDDLEWARE = [

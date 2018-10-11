@@ -22,4 +22,5 @@ urlpatterns = [
     path('userauth/', include('AuthUser.urls')),
     path('classroom/', include('Classroom.urls')),
     path('comment/', include('Comment.urls')),
+    path('announcement/', include('Announcement.urls')),
 ]

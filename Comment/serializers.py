@@ -14,15 +14,3 @@ class CommentSerializer(ModelSerializer):
 			'created_at'
 			]
 		read_only_fields = ['id', 'created_at']
-
-
-		# def create(self, validated_data):
-		# 	username = validated_data.pop('commenter')['username']
-		# 	comment_text = validated_data.pop('comment_text')
-		# 	print(username, comment)
-		# 	comment = Comment()
-		# 	comment.commenter = User.objects.get(username=username)
-		# 	comment.comment = comment_text
-		# 	comment.save()
-			
-		# 	return (instance)
