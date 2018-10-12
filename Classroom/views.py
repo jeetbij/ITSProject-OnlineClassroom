@@ -44,8 +44,7 @@ class ClassroomView(APIView):
 		# 	print("serializer.data",serializer.data)
 		# 	return Response(serializer.data)
 		# else:
-		# 	return Response("serializer is not valid.")
-
+		# 	return Response("serializer is not valid.")	
 
 class ClassroomStudentView(APIView):
 	def get(self, request, format=None):

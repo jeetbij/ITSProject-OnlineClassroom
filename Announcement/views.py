@@ -10,6 +10,8 @@ from Classroom.models import Classroom
 from Comment.serializers import CommentSerializer
 from Classroom.serializers import ClassroomSerializer
 from Comment.models import Comment
+
+from rest_framework import status
 # Create your views here.
 
 class AnnouncementView(APIView):
@@ -39,6 +41,30 @@ class AnnouncementView(APIView):
 		announcement_serializer = AnnouncementSerializer(announcement, many=False).data
 		print(announcement_serializer)
 		return Response(announcement_serializer)
+
+	def put(self, request, format=None):
+		username = request.data.get('username')
+		user = User.objects.get(username=username)
+		print(username)
+		announcement_id = request.data.get('annoucement_id')
+		announcement = Announcement.objects.get(id=announcement_id)
+		print(announcement)
+		print("announcement.announcer",announcement.announcer)
+		print(user)
+		if(announcement.announcer==user):
+			announcement.content = request.data.get('content')
+			announcement.save()
+			announcement_serializer = AnnouncementSerializer(announcement, many=False).data
+			print(announcement_serializer)
+			return Response(announcement_serializer)
+		return Response({
+				"errors": [
+					"You can't update this announcement"
+				]
+			}, status=status.HTTP_400_BAD_REQUEST)
+		
+		
+
 
 class AnnoucementCommentView(APIView):
 
@@ -73,7 +99,7 @@ class AnnoucementCommentView(APIView):
 		serialized_announcement['classroom'] = serialized_classroom
 		return Response(serialized_announcement)
 
-
+	
 
 
 
