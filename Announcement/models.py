@@ -6,7 +6,7 @@ from Classroom.models import Classroom
 # Create your models here.
 
 class Announcement(models.Model):
-	announcer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='announcer_user')
+	announcer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user_announcement')
 	classroom = models.ForeignKey(Classroom, on_delete=models.CASCADE, related_name='class_announcement')
 	content = models.TextField(null=True)
 	comment = models.ManyToManyField(Comment, related_name="announcement")

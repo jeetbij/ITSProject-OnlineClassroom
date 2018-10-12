@@ -16,13 +16,14 @@ class UserSerializer(ModelSerializer):
 		extra_kwargs = {
 			'password': {'write_only':True}
 		}
-		
+
 	def create(self, validated_data):
 		username = validated_data.pop('username')
 		first_name = validated_data.pop('first_name')
 		last_name = validated_data.pop('last_name')
 		email = validated_data.pop('email')
 		mobile_no = validated_data.pop('mobile_no')
+		password = validated_data.pop('password')
 
 		user = User()
 		user.username = username
@@ -30,6 +31,7 @@ class UserSerializer(ModelSerializer):
 		user.last_name = last_name
 		user.email = email
 		user.mobile_no = mobile_no
+		user.set_password(password)
 		user.save()
 
 		return(user)

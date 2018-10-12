@@ -5,15 +5,19 @@ from .models import Classroom
 from .serializers import ClassroomSerializer
 from AuthUser.serializers import UserSerializer
 from AuthUser.models import User
-
+from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import render
 from django.http import HttpResponse
 from rest_framework.response import Response
+from rest_framework import status
 # Create your views here.
 from rest_framework import status	
 
 class ClassroomView(APIView):
+	permission_classes = (IsAuthenticated,)
+
 	def get(self, request, format=None):
+<<<<<<< HEAD
 		# classroom_id = request.GET.get('classroom_id')
 		classroom = Classroom.objects.all()
 		print(classroom)
@@ -65,21 +69,61 @@ class ClassroomView(APIView):
 				]
 			}, status=status.HTTP_400_BAD_REQUEST)
 
+=======
+		classroom_id = request.GET.get('classroom_id')
+		try:
+			classroom = Classroom.objects.get(id=classroom_id)
+			if request.user.username == classroom.creator.username:
+				serializer = ClassroomSerializer(classroom, many=False)
+				return Response(serializer.data)
+			else:
+				return Response({
+					"error": "You are not authorized to access this classroom."
+					}, status=status.HTTP_403_FORBIDDEN)
+		except Exception as e:
+			return Response({
+				"error": "Classroom query does not exists."
+				}, status=status.HTTP_403_FORBIDDEN)
+
+	def post(self, request, format=None):
+		try:
+			classroom_name = request.data.get('name')
+			classroom = Classroom()
+			classroom.name = classroom_name
+			classroom.creator = request.user
+			classroom.save()
+			serialized_classroom = ClassroomSerializer(classroom, many=False)
+			return Response(serialized_classroom.data)
+		except Exception as e:
+			return Response({
+				"error": "Something went wrong."
+				}, status=status.HTTP_403_FORBIDDEN)
+		
+>>>>>>> 50880e0fa176306156d3fcb7d63cf70a9fcdd20b
 
 class ClassroomStudentView(APIView):
+	permission_classes = (IsAuthenticated,)
+
 	def get(self, request, format=None):
 		classroom_id = request.GET.get('id')
-		classroom = Classroom.objects.get(id=classroom_id)
-		print(classroom)
-		students = classroom.students.all()
-		print(students)
-		serialized_students = UserSerializer(students, many=True)
-		print("serialized_students")
-		print(serialized_students.data)
-		return Response(serialized_students.data)
+		try:
+			classroom = Classroom.objects.get(id=classroom_id)
+			if request.user.username == classroom.creator.username:
+				students = classroom.students.all()
+				serialized_students = UserSerializer(students, many=True)
+				return Response(serialized_students.data)
+			else:
+				return Response({
+					"error": "You are not authorized to access this data."
+					}, status=status.HTTP_403_FORBIDDEN)
+		except Exception as e:
+			return Response({
+				"error": "Query does not exists."
+				}, status=status.HTTP_403_FORBIDDEN)
 
 	def post(self, request, format=None):
 		classroom_id = request.data.get('id')
+<<<<<<< HEAD
 		classroom = Classroom.objects.get(id=classroom_id)
 		student_ids = request.data.get('students')
 		student_users = [User.objects.get(username=student_id) for student_id in student_ids]
@@ -89,6 +133,27 @@ class ClassroomStudentView(APIView):
 		serialized_students = UserSerializer(classroom.students.all(), many=True).data
 		serialized_classroom['students'] = serialized_students
 		return Response(serialized_classroom)
+=======
+		try:
+			classroom = Classroom.objects.get(id=classroom_id)
+			if request.user.username == classroom.creator.username:
+				student_ids = request.data.get('students')
+				student_users = [User.objects.get(username=student_id) for student_id in student_ids]
+				classroom.students.add(*student_users)
+				classroom.save()
+				serialized_classroom = ClassroomSerializer(classroom, many=False).data
+				serialized_students = UserSerializer(classroom.students.all(), many=True).data
+				serialized_classroom['students'] = serialized_students
+				return Response(serialized_classroom)
+			else:
+				return Response({
+					"error": "You are not authorized to add students to this classroom."
+					}, status=status.HTTP_403_FORBIDDEN)
+		except Exception as e:
+			return Response({
+				"error": "Query does not exists."
+				}, status=status.HTTP_403_FORBIDDEN)
+>>>>>>> 50880e0fa176306156d3fcb7d63cf70a9fcdd20b
 
 	def put(self, request, format=None):
 		classroom_id = request.data.get('classroom_id')
@@ -112,19 +177,28 @@ class ClassroomStudentView(APIView):
 			}, status=status.HTTP_400_BAD_REQUEST)
 
 class ClassroomModeratorView(APIView):
-	
+	permission_classes = (IsAuthenticated,)
+
 	def get(self, request, format=None):
 		classroom_id = request.GET.get('id')
-		classroom = Classroom.objects.get(id=classroom_id)
-		moderators = classroom.moderators.all()
-		print(moderators)
-		serialized_moderators = UserSerializer(moderators, many=True)
-		print("serialized_moderators")
-		print(serialized_moderators.data)
-		return Response(serialized_moderators.data)
+		try:
+			classroom = Classroom.objects.get(id=classroom_id)
+			if request.user.username == classroom.creator.username:
+				moderators = classroom.moderators.all()
+				serialized_moderators = UserSerializer(moderators, many=True)
+				return Response(serialized_moderators.data)
+			else:
+				return Response({
+					"error": "You are not authorized to access this data."
+					}, status=status.HTTP_403_FORBIDDEN)
+		except Exception as e:
+			return Response({
+				"error": "Classroom query does not exists."
+				}, status=status.HTTP_403_FORBIDDEN)
 
 	def post(self, request, format=None):
 		classroom_id = request.data.get('id')
+<<<<<<< HEAD
 		classroom = Classroom.objects.get(id=classroom_id)
 		moderator_ids = request.data.get('moderators')
 		moderator_users = [User.objects.get(username=moderator_id) for moderator_id in moderator_ids]
@@ -161,6 +235,30 @@ class ClassroomModeratorView(APIView):
 					"You can't remove moderators"
 				]
 			}, status=status.HTTP_400_BAD_REQUEST)
+=======
+		try:
+			classroom = Classroom.objects.get(id=classroom_id)
+			if request.user.username == classroom.creator.username:
+				moderator_ids = request.data.get('moderators')
+				moderator_users = [User.objects.get(username=moderator_id) for moderator_id in moderator_ids]
+				classroom.moderators.add(*moderator_users)
+				classroom.save()
+				serialized_classroom = ClassroomSerializer(classroom, many=False).data
+				serialized_moderators = UserSerializer(classroom.moderators.all(), many=True).data
+				serialized_classroom['moderators'] = serialized_moderators
+				return Response(serialized_classroom)
+			else:
+				return Response({
+					"error": "You are not authorized to add moderators to this classroom."
+					}, status=status.HTTP_403_FORBIDDEN)
+		except Exception as e:
+			return Response({
+				"error": "Classroom query doesn't exists."
+				}, status=status.HTTP_403_FORBIDDEN)
+
+
+
+>>>>>>> 50880e0fa176306156d3fcb7d63cf70a9fcdd20b
 
 
 
