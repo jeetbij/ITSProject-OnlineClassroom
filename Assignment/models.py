@@ -1,5 +1,7 @@
 from django.conf import settings
 from django.db import models
+from Classroom.models import Classroom
+from Comment.models import Comment
 
 # Create your models here.
 
@@ -12,8 +14,10 @@ def submission_upload_path(instance, filename):
 class Assignment(models.Model):
 	title = models.CharField(max_length=50, null=True, blank=True)
 	uploader = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True, related_name="uploaded_assignment")
+	classroom = models.ForeignKey(Classroom, on_delete=models.CASCADE, null=True, blank=True, related_name="assignment")
 	attachment = models.FileField(upload_to=assignment_upload_path)
 	deadline = models.DateTimeField(null=True, blank=True)
+	comments = models.ManyToManyField(Comment, related_name="associated_assignment")
 	created_on = models.DateTimeField(auto_now_add=True)
 
 	def __str__(self):

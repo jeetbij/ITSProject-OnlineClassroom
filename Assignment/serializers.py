@@ -3,15 +3,18 @@ from rest_framework.serializers import ModelSerializer
 from Assignment.models import Assignment, Submission
 from AuthUser.models import User
 from AuthUser.serializers import UserSerializer
+from Classroom.serializers import ClassroomSerializer
 
 class AssignmentSerializer(ModelSerializer):
 	uploader = UserSerializer(required=False)
+	classroom = ClassroomSerializer(required=False, write_only=True)
 	class Meta:
 		model = Assignment
 		fields = [
 			'id',
 			'title',
 			'uploader',
+			'classroom',
 			'attachment',
 			'deadline',
 			'created_on'
