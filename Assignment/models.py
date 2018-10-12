@@ -6,6 +6,9 @@ from django.db import models
 def assignment_upload_path(instance, filename):
 	return 'Assignments/{0}'.format(instance.uploader.username, filename)
 
+def submission_upload_path(instance, filename):
+	return 'Submission/{0}_{1}'.format(instance.assignment.id, instance.assignment.title, filename)
+
 class Assignment(models.Model):
 	title = models.CharField(max_length=50, null=True, blank=True)
 	uploader = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True, related_name="uploaded_assignment")
@@ -15,3 +18,14 @@ class Assignment(models.Model):
 
 	def __str__(self):
 		return str(self.uploader.username) + ' -- ' + str(self.title)
+
+
+class Submission(models.Model):
+	submitter = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True, related_name="assignment_submitter")
+	assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE, null=True, blank=True, related_name="assignment_submission")
+	attachment = models.FileField(upload_to=submission_upload_path)
+	score = models.IntegerField(default=None, null=True, blank=True)
+	submitted_on = models.DateTimeField(auto_now_add=True)
+
+	def __str__(self):
+		return str(self.submitter.username) + ' -- ' + str(self.assignment.title)
