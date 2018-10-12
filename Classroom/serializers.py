@@ -13,7 +13,8 @@ class ClassroomSerializer(ModelSerializer):
 			'id',
 			'name',
 			'username',
-			'created_at'
+			'created_at',
+			'is_active'
 			]
 		read_only_fields = ['id', 'created_at']
 

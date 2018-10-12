@@ -10,14 +10,14 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from rest_framework.response import Response
 # Create your views here.
-	
+from rest_framework import status	
 
 class ClassroomView(APIView):
 	def get(self, request, format=None):
-		classroom_id = request.GET.get('classroom_id')
-		classroom = Classroom.objects.get(id=classroom_id)
+		# classroom_id = request.GET.get('classroom_id')
+		classroom = Classroom.objects.all()
 		print(classroom)
-		serializer = ClassroomSerializer(classroom, many=False)
+		serializer = ClassroomSerializer(classroom, many=True)
 		print(serializer.data)
 		return Response(serializer.data)
 
@@ -44,7 +44,27 @@ class ClassroomView(APIView):
 		# 	print("serializer.data",serializer.data)
 		# 	return Response(serializer.data)
 		# else:
-		# 	return Response("serializer is not valid.")	
+		# 	return Response("serializer is not valid.")
+
+	def put(self, request, format=None):
+		classroom_creator = request.data.get('username')
+		classroom_name = request.data.get('name')
+		classroom_id = request.data.get('id')
+		classroom_isActive = request.data.get('isActive')
+		user = User.objects.get(username=classroom_creator)
+		classroom = Classroom.objects.get(id=classroom_id)
+		if(classroom.creator==user):
+			classroom.name=classroom_name
+			classroom.is_active=classroom_isActive
+			classroom.save()
+			classroom_serializer=ClassroomSerializer(classroom,many=False).data
+			return Response(classroom_serializer)
+		return Response({
+				"errors": [
+					"You can't update this classroom"
+				]
+			}, status=status.HTTP_400_BAD_REQUEST)
+
 
 class ClassroomStudentView(APIView):
 	def get(self, request, format=None):
@@ -63,23 +83,33 @@ class ClassroomStudentView(APIView):
 		classroom = Classroom.objects.get(id=classroom_id)
 		student_ids = request.data.get('students')
 		student_users = [User.objects.get(username=student_id) for student_id in student_ids]
-		print("classroom",classroom)
-		print("student_ids",student_ids)
-		print("student_users",student_users)
-		print("student_users",*student_users)
 		classroom.students.add(*student_users)
-		print("classroom",classroom)
 		classroom.save()
-		print("classroom_after_save",classroom)
 		serialized_classroom = ClassroomSerializer(classroom, many=False).data
-		print("serialized_classroom",serialized_classroom)
 		serialized_students = UserSerializer(classroom.students.all(), many=True).data
-		print("serialized_students",serialized_students)
 		serialized_classroom['students'] = serialized_students
-		print(serialized_classroom )
 		return Response(serialized_classroom)
 
-
+	def put(self, request, format=None):
+		classroom_id = request.data.get('classroom_id')
+		classroom = Classroom.objects.get(id=classroom_id)
+		student_ids = request.data.get('students_to_remove')
+		creator = request.data.get('creator')
+		classroom_creator = User.objects.get(username=creator)
+		student_users = [User.objects.get(username=student_id) for student_id in student_ids]
+		print(student_users)
+		if(classroom.creator==classroom_creator):
+			classroom.students.remove(*student_users)
+			classroom.save()
+			serialized_classroom = ClassroomSerializer(classroom, many=False).data	
+			serialized_students = UserSerializer(classroom.students.all(), many=True).data
+			serialized_classroom['students'] = serialized_students
+			return Response(serialized_classroom)
+		return Response({
+				"errors": [
+					"You can't remove students"
+				]
+			}, status=status.HTTP_400_BAD_REQUEST)
 
 class ClassroomModeratorView(APIView):
 	
@@ -111,9 +141,26 @@ class ClassroomModeratorView(APIView):
 		print(serialized_classroom )
 		return Response(serialized_classroom)
 
-
-
-
+	def put(self, request, format=None):
+		classroom_id = request.data.get('classroom_id')
+		classroom = Classroom.objects.get(id=classroom_id)
+		moderator_ids = request.data.get('moderators_to_remove')
+		creator = request.data.get('creator')
+		classroom_creator = User.objects.get(username=creator)
+		moderator_users = [User.objects.get(username=moderator_id) for moderator_id in moderator_ids]
+		print(moderator_users)
+		if(classroom.creator==classroom_creator):
+			classroom.moderators.remove(*moderator_users)
+			classroom.save()
+			serialized_classroom = ClassroomSerializer(classroom, many=False).data	
+			serialized_students = UserSerializer(classroom.moderators.all(), many=True).data
+			serialized_classroom['moderators'] = serialized_students
+			return Response(serialized_classroom)
+		return Response({
+				"errors": [
+					"You can't remove moderators"
+				]
+			}, status=status.HTTP_400_BAD_REQUEST)
 
 
 
