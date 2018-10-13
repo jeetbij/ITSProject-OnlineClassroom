@@ -27,6 +27,7 @@ urlpatterns = [
     path('comment/', include('Comment.urls')),
     path('announcement/', include('Announcement.urls')),
     path('assignment/', include('Assignment.urls')),
+    path('polls/', include('Polls.urls')),
 
     url(r'^api-token-auth/', obtain_jwt_token),
     url(r'^api-token-refresh/', refresh_jwt_token)
