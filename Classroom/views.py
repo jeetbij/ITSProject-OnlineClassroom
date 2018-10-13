@@ -17,7 +17,7 @@ class ClassroomView(APIView):
 	permission_classes = (IsAuthenticated,)
 
 	def get(self, request, format=None):
-		classroom = Classroom.objects.filter(creator__username=request.username)
+		classroom = Classroom.objects.filter(creator__username=request.user.username)
 		serializer = ClassroomSerializer(classroom, many=True)
 		return Response(serializer.data)
 
