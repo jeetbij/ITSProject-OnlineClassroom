@@ -79,3 +79,41 @@ class CommentView(APIView):
 			}, status=status.HTTP_400_BAD_REQUEST)
 
 
+# type 1: remove upvote
+# type 2: remove downvote
+	def delete(self, request, format=None):
+		try:
+			comment = Comment.objects.get(id=request.data.get('comment_id'))
+			query_type = request.data.get('type')
+			if(query_type == 1):
+				remove_upvoter = request.data.get('remove_upvote')
+				comment.upvoters.remove(User.objects.get(username=remove_upvoter))
+				comment.save()
+				serializer = CommentSerializer(comment,many=False)
+				return Response(serializer.data)
+
+			elif(query_type == 2):
+				remove_downvoter = request.data.get('remove_downvote')
+				comment.downvoters.remove(User.objects.get(username=remove_downvoter))
+				comment.save()
+				serializer = CommentSerializer(comment,many=False)
+				return Response(serializer.data)
+			return Response({
+				"error": "Type value is not defined."
+			}, status=status.HTTP_400_BAD_REQUEST)
+		
+		except Exception as e:
+			return Response({
+				"error": "Comment query doesn't exists."
+			}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+
+
+
+
+
+
+
