@@ -364,9 +364,11 @@ Body
         "downvote":"itsadmin2"
         }
 
-Here:		# type 1: comment edit
-	# type 2: to add upvoter
-	# type 3: to add a downvoter
+<b>Here:</b>		
+
+			# type 1: comment edit
+			# type 2: to add upvoter
+			# type 3: to add a downvoter
 
 
 
@@ -412,6 +414,7 @@ Body
 	"remove_downvote":"itsadmin2"
     }
 
-Here:	
-	# type 1: to remove upvoter
-	# type 2: to remove a downvoter
+<b>Here:</b>	
+
+			#type 1: to remove upvoter
+			#type 2: to remove a downvoter
