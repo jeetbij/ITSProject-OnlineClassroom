@@ -13,10 +13,11 @@ class ClassroomSerializer(ModelSerializer):
 			'id',
 			'name',
 			'username',
+			'image',
 			'created_at',
 			'is_active'
 			]
-		read_only_fields = ['id', 'created_at']
+		read_only_fields = ['id', 'created_at', 'image']
 
 	# def create(self, validated_data):
 	# 	name = validated_data.pop('name')
