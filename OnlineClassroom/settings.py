@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'Comment',
     'Announcement',
     'Assignment',
+    'Polls',
 ]
 
 MIDDLEWARE = [
