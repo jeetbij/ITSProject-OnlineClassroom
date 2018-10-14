@@ -418,3 +418,58 @@ Body
 
 			#type 1: to remove upvoter
 			#type 2: to remove a downvoter
+
+
+<h3>22. To get polls with its options from a class:</h3>
+
+GET		http://127.0.0.1:8000/polls/
+
+Params:
+
+	classroom_id = 1
+
+Headers:
+	
+	Authorization	:	JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6Iml0c2FkbWluIiwiZXhwIjoxNTM5NDQwMjQ3LCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSJ9.jU0oaps5aKpcMf-Du0HDk2jMMBGYsYvEV8NTWS0t5oI
+	username: itsadmin
+
+
+
+
+
+<h3>23. To post poll and its options in a class:</h3>
+ 
+POST		http://127.0.0.1:8000/polls/
+
+Headers:
+	
+	Authorization	:	JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6Iml0c2FkbWluIiwiZXhwIjoxNTM5NDQwMjQ3LCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSJ9.jU0oaps5aKpcMf-Du0HDk2jMMBGYsYvEV8NTWS0t5oI
+	username: 		itsadmin
+	Content-Type:	application/json
+
+Body
+
+		{
+		"type":2,
+		"classroom_id":1,
+		"poll_text":"Which Bike",
+		"parent_poll_id": 5,
+		"poll_option_text":"KTM 3"
+		}
+
+
+Here:		
+
+		# 	type 1: Add Poll
+		# 	{
+		# 		"type":1,
+		# 		"classroom_id":1,
+		# 		"poll_text":"Which Bike"
+		# 	}
+
+		# 	type 2: Add PollOptions
+		# 	{
+		# 		"type":2,
+		# 		"parent_poll_id": 5,
+		# 		"poll_option_text":"KTM 2"
+		# 	}
