@@ -115,8 +115,8 @@ Headers
 Body
 
     {
-    "id": 1,
-    "students": ["itsadmin","itsadmin2"]
+    	"id": 1,
+    	"students": ["itsadmin","itsadmin2"]
     }
 <h3>8. To delete students in a Classroom:</h3>
 
@@ -131,8 +131,8 @@ Headers
 Body
 
     {
-    "classroom_id": 1,
-    "students_to_remove": ["itsadmin"]
+   	 "classroom_id": 1,
+    	"students_to_remove": ["itsadmin"]
     }
 
 <h3>9. To get all the moderators from a Classroom:</h3>
@@ -162,8 +162,8 @@ Headers
 Body
 
     {
-    "id": 1,
-    "moderators": ["itsadmin","itsadmin2"]
+    	"id": 1,
+    	"moderators": ["itsadmin","itsadmin2"]
     }
 <h3>11. To delete moderators in a Classroom:</h3>
 
@@ -178,8 +178,8 @@ Headers
 Body
 
     {
-    "classroom_id": 1,
-    "moderators_to_remove": ["itsadmin"]
+    	"classroom_id": 1,
+   	"moderators_to_remove": ["itsadmin"]
     }
 
 <h3>12. To get User Details :</h3>
@@ -205,12 +205,12 @@ Headers
 Body
 
      {
-    "username": "itsadmin3",
-    "first_name": "asdf",
-    "last_name": "asdf",
-    "email": "admin@admin.com",
-    "mobile_no": "7014156060",
-    "password":"qazwsxedc"
+	    "username": "itsadmin3",
+	    "first_name": "asdf",
+	    "last_name": "asdf",
+	    "email": "admin@admin.com",
+	    "mobile_no": "7014156060",
+	    "password":"qazwsxedc"
     }
 
 
@@ -275,8 +275,8 @@ Headers:
 Body
 
         {
-        "annoucement_id": "1",
-        "content": "test78"
+       	 	"annoucement_id": "1",
+        	"content": "test78"
         }
 
 
@@ -321,9 +321,9 @@ Headers:
 Body
 
     {
-    "announcement_id": 10,
-    "parrent_comment_id":1,
-    "comment_text": "Test Comment in Announcement”
+	    "announcement_id": 10,
+	    "parrent_comment_id":1,
+	    "comment_text": "Test Comment in Announcement”
     }
 
 
@@ -357,11 +357,11 @@ Headers:
 Body
 
         {
-      	"type":3,
-        "comment_id": 1,
-        "comment_text": "asdf2",
-        "upvote":"itsadmin2",
-        "downvote":"itsadmin2"
+		"type":3,
+		"comment_id": 1,
+		"comment_text": "asdf2",
+		"upvote":"itsadmin2",
+		"downvote":"itsadmin2"
         }
 
 <b>Here:</b>		
@@ -450,11 +450,11 @@ Headers:
 Body
 
 		{
-		"type":2,
-		"classroom_id":1,
-		"poll_text":"Which Bike",
-		"parent_poll_id": 5,
-		"poll_option_text":"KTM 3"
+			"type":2,
+			"classroom_id":1,
+			"poll_text":"Which Bike",
+			"parent_poll_id": 5,
+			"poll_option_text":"KTM 3"
 		}
 
 
@@ -473,3 +473,42 @@ Here:
 		# 		"parent_poll_id": 5,
 		# 		"poll_option_text":"KTM 2"
 		# 	}
+
+
+
+<h3>24. To get poll response from a poll:</h3>
+
+GET		http://127.0.0.1:8000/poll_response/
+
+Params:
+
+	poll_id = 1
+
+Headers:
+	
+	Authorization	:	JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6Iml0c2FkbWluIiwiZXhwIjoxNTM5NDQwMjQ3LCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSJ9.jU0oaps5aKpcMf-Du0HDk2jMMBGYsYvEV8NTWS0t5oI
+	username: 	itsadmin1
+	
+	
+	
+<h3>25. To add poll response at a poll:</h3>
+
+POST		http://127.0.0.1:8000/poll_response/
+
+Headers:
+	
+      Authorization	:	JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6Iml0c2FkbWluIiwiZXhwIjoxNTM5NDQwMjQ3LCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSJ9.jU0oaps5aKpcMf-Du0HDk2jMMBGYsYvEV8NTWS0t5oI
+      username: 	itsadmin1
+      Content-Type:	application/json
+
+Body
+
+    	{
+    		"poll_id": 1,
+    		"poll_option_id": 6
+	}
+
+	
+	
+	
+	
