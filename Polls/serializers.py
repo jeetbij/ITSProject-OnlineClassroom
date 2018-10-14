@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
-from Polls.models import Poll, PollOption, PollResponse
+from Polls.models import Poll, PollOption
 from AuthUser.models import User
 from AuthUser.serializers import UserSerializer
 from Classroom.serializers import ClassroomSerializer
@@ -31,18 +31,18 @@ class PollOptionSerializer(ModelSerializer):
 			]
 		read_only_fields = ['id', 'created_at']
 
-class PollResponseSerializer(ModelSerializer):
-	user = UserSerializer(many=False, required=False)
-	poll_option = PollOptionSerializer(many=False, required=False)
-	class Meta:
-		model = PollResponse
-		fields = [
-			'id',
-			'user',
-			'poll_option',
-			'created_at',
-			]
-		read_only_fields = ['id', 'created_at']
+# class PollResponseSerializer(ModelSerializer):
+# 	user = UserSerializer(many=False, required=False)
+# 	poll_option = PollOptionSerializer(many=False, required=False)
+# 	class Meta:
+# 		model = PollResponse
+# 		fields = [
+# 			'id',
+# 			'user',
+# 			'poll_option',
+# 			'created_at',
+# 			]
+# 		read_only_fields = ['id', 'created_at']
 
 
 

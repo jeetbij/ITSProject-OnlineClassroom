@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'Announcement',
     'Assignment',
     'Polls',
+    'PollResponse',
 ]
 
 MIDDLEWARE = [

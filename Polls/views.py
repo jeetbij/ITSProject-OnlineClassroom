@@ -4,13 +4,13 @@ from django.http import HttpResponse
 from rest_framework.response import Response
 
 from AuthUser.models import User
-from Polls.models import Poll, PollOption, PollResponse
+from Polls.models import Poll, PollOption
 from Classroom.models import Classroom
 
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from AuthUser.serializers import UserSerializer
-from Polls.serializers import PollSerializer,PollOptionSerializer,PollResponseSerializer
+from Polls.serializers import PollSerializer,PollOptionSerializer
 # Create your views here.
 class PollView(APIView):
 	permission_classes = (IsAuthenticated, )
@@ -80,6 +80,9 @@ class PollView(APIView):
 			return Response({
 				"error": "Classroom query for polls doesn't exists."
 			}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
 
 
 
