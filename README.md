@@ -508,7 +508,22 @@ Body
     		"poll_option_id": 6
 	}
 
+<h3>26. To delete a poll :</h3>
+
+DELETE		http://127.0.0.1:8000/polls/
+
+Headers:
 	
+      Authorization	:	JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6Iml0c2FkbWluIiwiZXhwIjoxNTM5NDQwMjQ3LCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSJ9.jU0oaps5aKpcMf-Du0HDk2jMMBGYsYvEV8NTWS0t5oI
+      username: 	itsadmin1
+      Content-Type:	application/json
+
+Body
+
+    	{
+    		"poll_id": 6
+	}
+
 	
 	
 	
