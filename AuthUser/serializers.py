@@ -11,6 +11,7 @@ class UserSerializer(ModelSerializer):
 			'last_name',
 			'email',
 			'mobile_no',
+			'avatar',
 			'password',
 			]
 		extra_kwargs = {
@@ -24,6 +25,7 @@ class UserSerializer(ModelSerializer):
 		email = validated_data.pop('email')
 		mobile_no = validated_data.pop('mobile_no')
 		password = validated_data.pop('password')
+		avatar = validated_data.pop('avatar')
 
 		user = User()
 		user.username = username
@@ -31,6 +33,8 @@ class UserSerializer(ModelSerializer):
 		user.last_name = last_name
 		user.email = email
 		user.mobile_no = mobile_no
+		if avatar:
+			user.avatar = avatar
 		user.set_password(password)
 		user.save()
 

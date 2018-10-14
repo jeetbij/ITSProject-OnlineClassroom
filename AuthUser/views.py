@@ -12,12 +12,11 @@ class UserView(APIView):
 
 	def get(self, request, format=None):
 		try:
-			username = request.GET.get('username')
-			user = User.objects.get(username=username)
+			serializer = UserSerializer(request.user, many=False)
+			return Response(serializer.data)
 		except:
 			return Response('User does not exists.')
-		serializer = UserSerializer(user, many=False)
-		return Response(serializer.data)
+		
 
 	def post(self, request, format=None):
 		serializer = UserSerializer(data=request.data)
