@@ -18,10 +18,10 @@ class PollOption(models.Model):
 	def __str__(self):
 		return str(self.option_text) + ' -- ' + str(self.created_at)
 
-class PollResponse(models.Model):
-	user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-	poll = models.ForeignKey(Poll, on_delete=models.CASCADE, related_name="poll")
-	poll_option = models.ForeignKey(PollOption, on_delete=models.CASCADE, related_name="poll_option")
-	created_at = models.DateTimeField(auto_now_add=True, blank=True)
-	def __str__(self):
-		return str(self.poll_option.option_text) + ' -- ' + str(self.created_at)
+# class PollResponse(models.Model):
+# 	user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+# 	poll = models.ForeignKey(Poll, on_delete=models.CASCADE, related_name="poll")
+# 	poll_option = models.ForeignKey(PollOption, on_delete=models.CASCADE, related_name="poll_option")
+# 	created_at = models.DateTimeField(auto_now_add=True, blank=True)
+# 	def __str__(self):
+# 		return str(self.poll_option.option_text) + ' -- ' + str(self.created_at)

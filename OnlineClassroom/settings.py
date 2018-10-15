@@ -27,7 +27,7 @@ SECRET_KEY = '-bkc$#xj0uu_&bule_&tki$m$&1zcwtr6t94t-i=7*2sz_0lrk'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'Assignment',
     'Polls',
     'PollResponse',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -57,7 +58,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'OnlineClassroom.urls'
 

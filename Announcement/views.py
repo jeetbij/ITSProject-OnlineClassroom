@@ -75,7 +75,7 @@ class AnnoucementCommentView(APIView):
 		try:
 			announcement = Announcement.objects.get(id=request.GET.get('id'))
 			announcement_serializer = AnnouncementSerializer(announcement, many=False).data
-			allcomments = announcement.comment.all()
+			allcomments = announcement.comment.filter(parent=null)
 			serializedcomments = CommentSerializer(allcomments, many=True)
 			announcement_serializer['comments'] = serializedcomments.data
 			serializedclassroom = ClassroomSerializer(announcement.classroom, many=False)
