@@ -101,10 +101,21 @@ WSGI_APPLICATION = 'OnlineClassroom.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+# Hosted MySql Database
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'onlineclassroom',
+        'USER': 'garvit',
+        'PASSWORD': 'itsproject',
+        'HOST': 'db4free.net',
+        'PORT': 3306,
     }
 }
 
