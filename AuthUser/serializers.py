@@ -13,6 +13,7 @@ class UserSerializer(ModelSerializer):
 			'mobile_no',
 			'avatar',
 			'password',
+			'is_faculty'
 			]
 		extra_kwargs = {
 			'password': {'write_only':True}
@@ -26,6 +27,7 @@ class UserSerializer(ModelSerializer):
 		mobile_no = validated_data.pop('mobile_no')
 		password = validated_data.pop('password')
 		avatar = validated_data.pop('avatar')
+		is_faculty = validated_data.pop('is_faculty')
 
 		user = User()
 		user.username = username
@@ -33,6 +35,8 @@ class UserSerializer(ModelSerializer):
 		user.last_name = last_name
 		user.email = email
 		user.mobile_no = mobile_no
+		user.is_faculty = is_faculty
+		
 		if avatar:
 			user.avatar = avatar
 		user.set_password(password)
