@@ -187,10 +187,6 @@ Body
 GET:		http://127.0.0.1:8000/userauth/user
 
 
-Params
-	
-    	username	itsadmin
-
 
 
 <h3>13. To add User in Database :</h3>
