@@ -520,6 +520,20 @@ Body
     		"poll_id": 6
 	}
 
+<h3>26. Add student in a class by join code.</h3>
+
+POST		http://127.0.0.1:8000/classroom/joinclassroom/
+
+Headers:
 	
+      Authorization	:	JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6Iml0c2FkbWluIiwiZXhwIjoxNTM5NDQwMjQ3LCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSJ9.jU0oaps5aKpcMf-Du0HDk2jMMBGYsYvEV8NTWS0t5oI
+      Content-Type:	application/json
+
+Body
+
+    	{
+	"joinCode":"DBMSbbcfd"
+	}
+
 	
 	
