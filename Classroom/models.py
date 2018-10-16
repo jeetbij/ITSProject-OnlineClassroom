@@ -18,7 +18,7 @@ class Classroom(models.Model):
 	is_active = models.BooleanField(default=True)
 
 	def save(self, *args, **kwargs):
-		if self.name:
+		if self.name and not self.id:
 			hash_object = hashlib.sha256((self.name).encode())
 			self.code = str(self.name) + ''.join(random.choice(hash_object.hexdigest()) for i in range(5))
 		super(Classroom, self).save(*args, **kwargs)
