@@ -43,7 +43,7 @@ class ClassroomView(APIView):
 			else:
 				return Response({
 					"error": "You aren't authorized to make a classroom."
-					}, status=status.HTTP_400_BAD_REQUEST)
+					}, status=status.HTTP_400_BAD_REQUEST)	
 		except Exception as e:
 			return Response({
 				"error": "Something went wrong."

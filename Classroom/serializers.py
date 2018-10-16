@@ -5,15 +5,15 @@ from AuthUser.models import User
 from AuthUser.serializers import UserSerializer
 
 class ClassroomSerializer(ModelSerializer):
-	username = serializers.CharField(source='creator.username')
-	
+	# username = serializers.CharField(source='creator.username')
+	creator = serializers.UserSerializer(required=False,many=False)
 	class Meta:
 		model = Classroom
 		fields = [
 			'id',
 			'name',
 			'code',
-			'username',
+			'creator',
 			'description',
 			'image',
 			'created_at',
