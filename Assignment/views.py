@@ -6,6 +6,7 @@ from Assignment.models import Assignment, Submission
 from Assignment.serializers import AssignmentSerializer, SubmissionSerializer
 from Classroom.models import Classroom
 from AuthUser.models import User
+from Comment.serializers import CommentSerializer
 
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
@@ -23,14 +24,19 @@ class AssignmentView(APIView):
 
 	def post(self, request, format=None):
 		try:
-			serializer = AssignmentSerializer(data=request.data)
-			uploader = request.user
 			classroom = Classroom.objects.get(id=request.data.get('classroom_id'))
-			if serializer.is_valid():
-				serializer.save(uploader=uploader, classroom=classroom)
-				return Response(serializer.data)
+			if classroom.creator.username == request.user.username:
+				serializer = AssignmentSerializer(data=request.data)
+				uploader = request.user
+				if serializer.is_valid():
+					serializer.save(uploader=uploader, classroom=classroom)
+					return Response(serializer.data)
+				else:
+					return Response(serializer.errors)
 			else:
-				return Response(serializer.errors)
+				return Response({
+					"error": "Only classroom owner can upload assignment."
+					}, status=status.HTTP_400_BAD_REQUEST)
 		except Exception as e:
 			return Response({
 				"error": "Classroom query doesn't exists."
@@ -61,12 +67,69 @@ class SubmissionView(APIView):
 		assignment_id = request.data.get('assignment_id')
 		try:
 			assignment = Assignment.objects.get(id=assignment_id)
-			serializer = SubmissionSerializer(data=request.data)
-			if serializer.is_valid():
-				serializer.save(submitter=request.user, assignment=assignment)
+			try:
+				submission = Submission.objects.get(submitter__username=request.user.username, assignment__id=assignment.id)
+				submission.attachment = request.data.get('attachment')
+				submission.save()
+				serializer = SubmissionSerializer(submission, many=False)
 				return Response(serializer.data)
+			except:
+				serializer = SubmissionSerializer(data=request.data)
+				if serializer.is_valid():
+					serializer.save(submitter=request.user, assignment=assignment, attachment=request.data.get('attachment'))
+					return Response(serializer.data)
+				else:
+					return Response(serializer.errors)
+		except Exception as e:
+			return Response({
+				"error": "Assignment query doesn't exists."
+				}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class AssignmentCommentView(APIView):
+	permission_classes = (IsAuthenticated, )
+
+	def get(self, request, format=None):
+		assignment_id = request.data.get('assignment_id')
+		try:
+			assignment = Assignment.objects.get(id=assignment_id)
+			allComments = assignment.comments.all()
+			serialized_comments = CommentSerializer(allComments, many=True)
+			serialized_assignment = AssignmentSerializer(assignment, many=False)
+			serialized_assignment.data['comments'] = serialized_comments
+			return Response(serialized_assignment.data)
+		except Exception as e:
+			return Response({
+				"error": "Assignment query doesn't exists."
+				}, status=status.HTTP_400_BAD_REQUEST)
+
+	def post(self, request, format=None):
+		assignment_id = request.data.get('assignment_id')
+		try:
+			assignment = Assignment.objects.get(id=assignment_id)
+			comment = Comment()
+			if request.data.get('comment_id'):
+				try:
+					comment.parent = Comment.objects.get(id=request.data.get('comment_id'))
+					comment.commenter = request.user
+					comment.comment_text = request.data.get('content')
+					comment.save()
+				except Exception as e:
+					return Response({
+						"error": "Comment query doesn't exists."
+						}, status=status.HTTP_400_BAD_REQUEST)
 			else:
-				return Response(serializer.errors)
+				comment.parent = None
+				comment.commenter = request.user
+				comment.comment_text = request.data.get('content')
+				comment.save()
+				assignment.comments.add(comment)
+				assignment.save()
+			allComments = assignment.comments.all()
+			serialized_comments = CommentSerializer(allComments, many=True)
+			serialized_assignment = AssignmentSerializer(assignment, many=False)
+			serialized_assignment.data['comments'] = serialized_comments
+			return Response(serialized_assignment.data)
 		except Exception as e:
 			return Response({
 				"error": "Assignment query doesn't exists."

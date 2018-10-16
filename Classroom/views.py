@@ -35,6 +35,7 @@ class ClassroomView(APIView):
 			classroom = Classroom()
 			classroom.name = classroom_name
 			classroom.creator = request.user
+			classroom.description = request.data.get('description')
 			classroom.save()
 			serialized_classroom = ClassroomSerializer(classroom, many=False)
 			return Response(serialized_classroom.data)
@@ -48,10 +49,12 @@ class ClassroomView(APIView):
 		try:
 			classroom = Classroom.objects.get(id=classroom_id)
 			classroom_name = request.data.get('name')
+			description = request.data.get('description')
 			if(classroom.creator.username==request.user.username):
 				classroom.name=classroom_name
+				classroom.description = description
 				classroom.save()
-				classroom_serializer=ClassroomSerializer(classroom,many=False).data
+				classroom_serializer=ClassroomSerializer(classroom, many=False).data
 				return Response(classroom_serializer)
 			return Response({
 					"errors": [
@@ -76,6 +79,23 @@ class ClassroomView(APIView):
 			return Response({
 				"error": "You are not authorized to delete this classroom."
 				}, status=status.HTTP_400_BAD_REQUEST)
+		except Exception as e:
+			return Response({
+				"error": "Classroom query doesn't exists."
+				}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class JoinClassroom(APIView):
+	permission_classes = (IsAuthenticated, )
+
+	def post(self, request, format=None):
+		classroom_code = request.data.get('joinCode')
+		try:
+			classroom = Classroom.objects.get(code=classroom_code)
+			classroom.students.add(request.user)
+			classroom.save()
+			serializer = ClassroomSerializer(classroom, many=False)
+			return Response(serializer.data)
 		except Exception as e:
 			return Response({
 				"error": "Classroom query doesn't exists."

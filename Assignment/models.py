@@ -13,6 +13,7 @@ def submission_upload_path(instance, filename):
 
 class Assignment(models.Model):
 	title = models.CharField(max_length=50, null=True, blank=True)
+	description = models.CharField(max_length=200, null=True, blank=True)
 	uploader = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True, related_name="uploaded_assignment")
 	classroom = models.ForeignKey(Classroom, on_delete=models.CASCADE, null=True, blank=True, related_name="assignment")
 	attachment = models.FileField(upload_to=assignment_upload_path)

@@ -32,8 +32,7 @@ class SubmissionSerializer(ModelSerializer):
 			'submitter',
 			'assignment_id',
 			'attachment',
-			'score',
 			'submitted_on'
 			]
 
-		read_only_fields = ['id', 'assignment_id', 'score', 'submitted_on']
+		read_only_fields = ['id', 'assignment_id', 'submitted_on']

@@ -84,7 +84,7 @@ class AnnoucementCommentView(APIView):
 			return Response(announcement_serializer)
 		except Exception as e:
 			return Response({
-				"error": "Classroom query doesn't exists."
+				"error": "Announcement query doesn't exists."
 				}, status=status.HTTP_400_BAD_REQUEST)
 
 	def post(self, request, format=None):
@@ -106,7 +106,7 @@ class AnnoucementCommentView(APIView):
 			return Response(serialized_announcement)
 		except Exception as e:
 			return Response({
-				"error": "Classroom query doesn't exists."
+				"error": "Announcement query doesn't exists."
 				}, status=status.HTTP_400_BAD_REQUEST)
 
 
