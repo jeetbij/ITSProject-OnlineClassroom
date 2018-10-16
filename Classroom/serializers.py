@@ -6,7 +6,7 @@ from AuthUser.serializers import UserSerializer
 
 class ClassroomSerializer(ModelSerializer):
 	# username = serializers.CharField(source='creator.username')
-	creator = serializers.UserSerializer(required=False,many=False)
+	creator = UserSerializer(required=False,many=False)
 	class Meta:
 		model = Classroom
 		fields = [
