@@ -20,7 +20,7 @@ class Classroom(models.Model):
 	def save(self, *args, **kwargs):
 		if self.name:
 			hash_object = hashlib.sha256((self.name).encode())
-			self.code = ''.join(random.choice(hash_object.hexdigest()) for i in range(6)) + str(self.id)
+			self.code = str(self.name) + ''.join(random.choice(hash_object.hexdigest()) for i in range(5))
 		super(Classroom, self).save(*args, **kwargs)
 
 	def __str__(self):
