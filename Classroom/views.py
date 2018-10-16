@@ -18,8 +18,16 @@ class ClassroomView(APIView):
 
 	def get(self, request, format=None):
 		classroom = Classroom.objects.filter(creator__username=request.user.username)
+		classroom_moderator = Classroom.objects.filter(moderators=request.user)
+		classroom_student = Classroom.objects.filter(students=request.user)
 		serializer = ClassroomSerializer(classroom, many=True)
-		return Response(serializer.data)
+		serializer_student = ClassroomSerializer(classroom_student, many=True)
+		serializer_moderator = ClassroomSerializer(classroom_moderator, many=True)
+		return Response({
+			"faculty":serializer.data,
+			"moderator":serializer_moderator.data,
+			"student":serializer_student.data
+			})
 
 	def post(self, request, format=None):
 		try:
