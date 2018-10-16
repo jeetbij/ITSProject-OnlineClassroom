@@ -70,13 +70,14 @@ class AnnouncementView(APIView):
 
 class AnnoucementCommentView(APIView):
 	permission_classes = (IsAuthenticated, )
-	
+
 	def get(self, request, format=None):
 		try:
 			announcement = Announcement.objects.get(id=request.GET.get('id'))
 			announcement_serializer = AnnouncementSerializer(announcement, many=False).data
-			allcomments = announcement.comment.filter(parent=null)
-			serializedcomments = CommentSerializer(allcomments, many=True)
+			allcomments = announcement.comment.all()
+			allcomments2 = allcomments.filter(parent__isnull=True)
+			serializedcomments = CommentSerializer(allcomments2, many=True)
 			announcement_serializer['comments'] = serializedcomments.data
 			serializedclassroom = ClassroomSerializer(announcement.classroom, many=False)
 			announcement_serializer['classroom'] = serializedclassroom.data
@@ -108,7 +109,7 @@ class AnnoucementCommentView(APIView):
 				"error": "Classroom query doesn't exists."
 				}, status=status.HTTP_400_BAD_REQUEST)
 
-	
+
 
 
 

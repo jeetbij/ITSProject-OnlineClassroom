@@ -26,7 +26,7 @@ class UserSerializer(ModelSerializer):
 		email = validated_data.pop('email')
 		mobile_no = validated_data.pop('mobile_no')
 		password = validated_data.pop('password')
-		avatar = validated_data.pop('avatar')
+# 		avatar = validated_data.pop('avatar')
 		is_faculty = validated_data.pop('is_faculty')
 
 		user = User()
@@ -36,9 +36,9 @@ class UserSerializer(ModelSerializer):
 		user.email = email
 		user.mobile_no = mobile_no
 		user.is_faculty = is_faculty
-		
-		if avatar:
-			user.avatar = avatar
+
+# 		if avatar:
+# 			user.avatar = avatar
 		user.set_password(password)
 		user.save()
 

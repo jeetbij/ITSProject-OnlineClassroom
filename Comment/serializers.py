@@ -8,7 +8,7 @@ class CommentSerializer(ModelSerializer):
 	commenter = UserSerializer(many=False, required=False)
 	upvoters = UserSerializer(many=True, required=False)
 	downvoters = UserSerializer(many=True, required=False)
-	
+
 	class Meta:
 		model = Comment
 		fields = [
@@ -17,6 +17,7 @@ class CommentSerializer(ModelSerializer):
 			'commenter',
 			'created_at',
 			'upvoters',
-			'downvoters'
+			'downvoters',
+			'parent'
 			]
 		read_only_fields = ['id', 'created_at', 'commenter']

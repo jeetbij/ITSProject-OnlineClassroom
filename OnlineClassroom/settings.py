@@ -108,16 +108,24 @@ WSGI_APPLICATION = 'OnlineClassroom.wsgi.application'
 #     }
 # }
 # Hosted MySql Database
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'onlineclassroom',
+#         'USER': 'garvit',
+#         'PASSWORD': 'itsproject',
+#         'HOST': 'db4free.net/',
+#         'PORT': '3306',
+#     }
+# }
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'onlineclassroom',
-        'USER': 'garvit',
-        'PASSWORD': 'itsproject',
-        'HOST': 'db4free.net',
-        'PORT': 3306,
-    }
-}
+'default': {
+    'ENGINE': 'django.db.backends.mysql',
+    'NAME': 'garvitkataria10$default',
+    'USER': 'garvitkataria10',
+    'PASSWORD': 'itsproject',
+    'HOST': 'garvitkataria10.mysql.pythonanywhere-services.com',
+}}
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
@@ -168,6 +176,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = '/home/garvitkataria10/ITSProject-OnlineClassroom/static'
+
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
