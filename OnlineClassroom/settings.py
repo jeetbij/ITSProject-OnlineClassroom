@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'Announcement',
     'Assignment',
     'Polls',
+    'Resources',
     'PollResponse',
     'corsheaders',
 ]
@@ -101,12 +102,12 @@ WSGI_APPLICATION = 'OnlineClassroom.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
 # Hosted MySql Database
 # DATABASES = {
 #     'default': {
@@ -118,14 +119,14 @@ WSGI_APPLICATION = 'OnlineClassroom.wsgi.application'
 #         'PORT': '3306',
 #     }
 # }
-DATABASES = {
-'default': {
-    'ENGINE': 'django.db.backends.mysql',
-    'NAME': 'garvitkataria10$default',
-    'USER': 'garvitkataria10',
-    'PASSWORD': 'itsproject',
-    'HOST': 'garvitkataria10.mysql.pythonanywhere-services.com',
-}}
+# DATABASES = {
+# 'default': {
+#     'ENGINE': 'django.db.backends.mysql',
+#     'NAME': 'garvitkataria10$default',
+#     'USER': 'garvitkataria10',
+#     'PASSWORD': 'itsproject',
+#     'HOST': 'garvitkataria10.mysql.pythonanywhere-services.com',
+# }}
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (

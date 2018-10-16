@@ -28,6 +28,7 @@ urlpatterns = [
     path('announcement/', include('Announcement.urls')),
     path('assignment/', include('Assignment.urls')),
     path('polls/', include('Polls.urls')),
+    path('resources/', include('Resources.urls')),
     path('poll_response/', include('PollResponse.urls')),
 
     url(r'^api-token-auth/', obtain_jwt_token),

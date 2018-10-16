@@ -76,7 +76,7 @@ class SubmissionView(APIView):
 			except:
 				serializer = SubmissionSerializer(data=request.data)
 				if serializer.is_valid():
-					serializer.save(submitter=request.user, assignment=assignment, attachment=request.data.get('attachment'))
+					serializer.save(submitter=request.user, assignment=assignment)
 					return Response(serializer.data)
 				else:
 					return Response(serializer.errors)
