@@ -32,13 +32,18 @@ class ClassroomView(APIView):
 	def post(self, request, format=None):
 		try:
 			classroom_name = request.data.get('name')
-			classroom = Classroom()
-			classroom.name = classroom_name
-			classroom.creator = request.user
-			classroom.description = request.data.get('description')
-			classroom.save()
-			serialized_classroom = ClassroomSerializer(classroom, many=False)
-			return Response(serialized_classroom.data)
+			if request.user.is_faculty:
+				classroom = Classroom()
+				classroom.name = classroom_name
+				classroom.creator = request.user
+				classroom.description = request.data.get('description')
+				classroom.save()
+				serialized_classroom = ClassroomSerializer(classroom, many=False)
+				return Response(serialized_classroom.data)
+			else:
+				return Response({
+					"error": "You aren't authorized to make a classroom."
+					}, status=status.HTTP_400_BAD_REQUEST)
 		except Exception as e:
 			return Response({
 				"error": "Something went wrong."
@@ -109,7 +114,7 @@ class ClassroomStudentView(APIView):
 		classroom_id = request.GET.get('id')
 		try:
 			classroom = Classroom.objects.get(id=classroom_id)
-			if request.user.username == classroom.creator.username:
+			if request.user.username == classroom.creator.username or request.user in classroom.moderators.all() or request.user in classroom.students.all():
 				students = classroom.students.all()
 				serialized_students = UserSerializer(students, many=True)
 				return Response(serialized_students.data)
@@ -175,7 +180,7 @@ class ClassroomModeratorView(APIView):
 		classroom_id = request.GET.get('id')
 		try:
 			classroom = Classroom.objects.get(id=classroom_id)
-			if request.user.username == classroom.creator.username:
+			if request.user.username == classroom.creator.username or request.user in classroom.moderators.all() or request.user in classroom.students.all():
 				moderators = classroom.moderators.all()
 				serialized_moderators = UserSerializer(moderators, many=True)
 				return Response(serialized_moderators.data)
