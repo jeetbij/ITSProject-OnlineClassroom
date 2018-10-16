@@ -12,21 +12,15 @@ class ClassroomSerializer(ModelSerializer):
 		fields = [
 			'id',
 			'name',
+			'code',
 			'username',
+			'description',
 			'image',
 			'created_at',
 			'is_active'
 			]
 		read_only_fields = ['id', 'created_at', 'image']
 
-	# def create(self, validated_data):
-	# 	name = validated_data.pop('name')
-	# 	username = validated_data.pop('creator')['username']
-	# 	classroom = Classroom()
-	# 	classroom.name = name
-	# 	classroom.creator = User.objects.get(username=username)
-	# 	classroom.save()
-	# 	return (classroom)
 
 class ClassroomStudentSerializer(ModelSerializer):
 	students = UserSerializer(required=True)
@@ -36,6 +30,7 @@ class ClassroomStudentSerializer(ModelSerializer):
 		fields = [
 			'students'
 			]
+
 
 class ClassroomModeratorSerializer(ModelSerializer):
 	moderators = UserSerializer(required=True)
