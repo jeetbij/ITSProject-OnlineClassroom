@@ -96,7 +96,7 @@ class AnnoucementCommentView(APIView):
 		announcement_id = request.data.get('announcement_id')
 		try:
 			announcement = Announcement.objects.get(id=announcement_id)
-			if request.user.username == assignment.classroom.creator.username or request.user in assignment.classroom.moderators.all() or request.user in assignment.classroom.students.all():
+			if request.user.username == announcement.classroom.creator.username or request.user in announcement.classroom.moderators.all() or request.user in announcement.classroom.students.all():
 				comment = Comment()
 				if request.data.get('comment_id'):
 					try:
