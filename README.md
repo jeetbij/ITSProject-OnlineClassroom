@@ -306,7 +306,7 @@ Headers:
 
 <h3>18. To add comments in an announcement :</h3>
 
-POST		http://127.0.0.1:8000/announcement/
+POST		http://127.0.0.1:8000/announcement/comment
 
 Headers:
 	
