@@ -74,41 +74,60 @@ class AnnoucementCommentView(APIView):
 	def get(self, request, format=None):
 		try:
 			announcement = Announcement.objects.get(id=request.GET.get('id'))
-			announcement_serializer = AnnouncementSerializer(announcement, many=False).data
-			allcomments = announcement.comment.all()
-			allcomments2 = allcomments.filter(parent__isnull=True)
-			serializedcomments = CommentSerializer(allcomments2, many=True)
-			announcement_serializer['comments'] = serializedcomments.data
-			serializedclassroom = ClassroomSerializer(announcement.classroom, many=False)
-			announcement_serializer['classroom'] = serializedclassroom.data
-			return Response(announcement_serializer)
+			if request.user.username == announcement.classroom.creator.username or request.user in announcement.classroom.moderators.all() or request.user in announcement.classroom.students.all():
+				announcement_serializer = AnnouncementSerializer(announcement, many=False).data
+				allcomments = announcement.comment.all()
+				# allcomments2 = allcomments.filter(parent__isnull=True)
+				serializedcomments = CommentSerializer(allcomments, many=True)
+				announcement_serializer['comments'] = serializedcomments.data
+				serializedclassroom = ClassroomSerializer(announcement.classroom, many=False)
+				announcement_serializer['classroom'] = serializedclassroom.data
+				return Response(announcement_serializer)
+			else:
+				return Response({
+					"error": "You aren't enrolled in this classroom."
+					}, status=status.HTTP_400_BAD_REQUEST)
 		except Exception as e:
 			return Response({
 				"error": "Announcement query doesn't exists."
 				}, status=status.HTTP_400_BAD_REQUEST)
 
 	def post(self, request, format=None):
+		announcement_id = request.data.get('announcement_id')
 		try:
-			announcement = Announcement.objects.get(id=request.data.get('announcement_id'))
-			comment = Comment()
-			comment.comment_text = request.data.get('comment_text')
-			comment.commenter = request.user
-			comment.parent = Comment.objects.get(id=request.data.get('parent_comment_id'))
-			comment.save()
-			announcement.comment.add(comment)
-			announcement.save()
-			allcomments = announcement.comment.all()
-			serialized_announcement = AnnouncementSerializer(announcement,many=False).data
-			serialized_comment = CommentSerializer(allcomments,many=True).data
-			serialized_classroom = ClassroomSerializer(announcement.classroom,many=False).data
-			serialized_announcement['comments'] = serialized_comment
-			serialized_announcement['classroom'] = serialized_classroom
-			return Response(serialized_announcement)
+			announcement = Announcement.objects.get(id=announcement_id)
+			if request.user.username == assignment.classroom.creator.username or request.user in assignment.classroom.moderators.all() or request.user in assignment.classroom.students.all():
+				comment = Comment()
+				if request.data.get('comment_id'):
+					try:
+						comment.parent = Comment.objects.get(id=request.data.get('comment_id'))
+						comment.commenter = request.user
+						comment.comment_text = request.data.get('comment')
+						comment.save()
+					except Exception as e:
+						return Response({
+							"error": "Comment query doesn't exists."
+							}, status=status.HTTP_400_BAD_REQUEST)
+				else:
+					comment.parent = None
+					comment.commenter = request.user
+					comment.comment_text = request.data.get('content')
+					comment.save()
+					announcement.comments.add(comment)
+					announcement.save()
+				allComments = announcement.comments.all()
+				serialized_comments = CommentSerializer(allComments, many=True)
+				serialized_announcement = AnnouncementSerializer(announcement, many=False)
+				serialized_announcement.data['comments'] = serialized_comments
+				return Response(serialized_announcement.data)
+			else:
+				return Response({
+					"error": "You aren't enrolled in this classroom."
+					}, status=status.HTTP_400_BAD_REQUEST)
 		except Exception as e:
 			return Response({
 				"error": "Announcement query doesn't exists."
 				}, status=status.HTTP_400_BAD_REQUEST)
-
 
 
 
