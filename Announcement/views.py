@@ -24,7 +24,7 @@ class AnnouncementView(APIView):
 			announcements = Announcement.objects.filter(classroom__id=classroom_id)
 			serializer = AnnouncementSerializer(announcements, many=True)
 			return Response(serializer.data)
-		except:
+		except Exception as e:
 			return Response({
 				"error": "Classroom query doesn't exists."
 				}, status=status.HTTP_400_BAD_REQUEST)

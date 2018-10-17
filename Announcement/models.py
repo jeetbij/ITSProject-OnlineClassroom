@@ -12,5 +12,8 @@ class Announcement(models.Model):
 	comment = models.ManyToManyField(Comment, related_name="announcement")
 	created_on = models.DateTimeField(auto_now_add=True)
 
+	def commentCount(self, *args, **kwargs):
+		return self.comment.all().count()
+
 	def __str__(self):
 		return str(self.announcer) + ' -- ' + str(self.created_on)
