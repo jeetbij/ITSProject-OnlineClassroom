@@ -113,9 +113,9 @@ class AnnoucementCommentView(APIView):
 					comment.commenter = request.user
 					comment.comment_text = request.data.get('content')
 					comment.save()
-					announcement.comments.add(comment)
+					announcement.comment.add(comment)
 					announcement.save()
-				allComments = announcement.comments.all()
+				allComments = announcement.comment.all()
 				serialized_comments = CommentSerializer(allComments, many=True)
 				serialized_announcement = AnnouncementSerializer(announcement, many=False)
 				serialized_announcement.data['comments'] = serialized_comments
