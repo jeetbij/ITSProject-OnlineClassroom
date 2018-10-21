@@ -30,17 +30,30 @@ class ResourceView(APIView):
 	def post(self, request, format=None):
 		try:
 			classroom = Classroom.objects.get(id=request.GET.get('classroom_id'))
-			if request.user.username == classroom.creator.username or request.user in classroom.moderators.all() or request.user in classroom.students.all():
-				serializer = ResourceSerializer(data=request.data)
-				if serializer.is_valid():
-					serializer.save(uploader=request.user, classroom=classroom)
-					return Response(serializer.data)
+			if request.data.get('is_lecture'):
+				if request.user.username == classroom.creator.username:
+					serializer = ResourceSerializer(data=request.data)
+					if serializer.is_valid():
+						serializer.save(uploader=request.user, classroom=classroom, is_lecture=True)
+						return Response(serializer.data)
+					else:
+						return Response(serializer.errors)
 				else:
-					return Response(serializer.errors)
+					return Response({
+						"error": "You aren't authorized to upload lectures in this classroom."
+						}, status=status.HTTP_400_BAD_REQUEST)
 			else:
-				return Response({
-					"error": "You aren't enrolled in this classroom."
-					}, status=status.HTTP_400_BAD_REQUEST)
+				if request.user.username == classroom.creator.username or request.user in classroom.moderators.all() or request.user in classroom.students.all():
+					serializer = ResourceSerializer(data=request.data)
+					if serializer.is_valid():
+						serializer.save(uploader=request.user, classroom=classroom)
+						return Response(serializer.data)
+					else:
+						return Response(serializer.errors)
+				else:
+					return Response({
+						"error": "You aren't enrolled in this classroom."
+						}, status=status.HTTP_400_BAD_REQUEST)
 		except Exception as e:
 			return Response({
 				"error": "Classroom query doesn't exists."
