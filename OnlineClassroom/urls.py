@@ -30,6 +30,7 @@ urlpatterns = [
     path('polls/', include('Polls.urls')),
     path('resources/', include('Resources.urls')),
     path('poll_response/', include('PollResponse.urls')),
+    path('notification/', include('Notifications.urls')),
 
     url(r'^api-token-auth/', obtain_jwt_token),
     url(r'^api-token-refresh/', refresh_jwt_token)

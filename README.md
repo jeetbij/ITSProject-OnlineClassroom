@@ -518,7 +518,7 @@ Body
 
     	{
     		"poll_id": 6
-	}
+		}
 
 <h3>27. Add student in a class by join code.</h3>
 
@@ -533,7 +533,7 @@ Body
 
     	{
 	"joinCode":"DBMSbbcfd"
-	}
+		}
 
 
 <h3>28. To get all lectures uploaded in a classroom </h3>

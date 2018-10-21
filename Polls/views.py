@@ -5,6 +5,7 @@ from rest_framework.response import Response
 
 from AuthUser.models import User
 from Polls.models import Poll, PollOption
+from PollResponse.models import PollResponse
 from Classroom.models import Classroom
 
 from rest_framework.permissions import IsAuthenticated
@@ -26,6 +27,13 @@ class PollView(APIView):
 				poll_options = PollOption.objects.filter(parrent_poll=poll)
 				poll_options_serialized = PollOptionSerializer(poll_options,many=True).data
 				poll_serialized['poll_options'] = poll_options_serialized
+				poll_serialized['is_responded'] = '0'
+				print(PollResponse.objects.filter(poll=poll))
+				print(PollResponse.objects.filter(poll=poll).filter(user=request.user))
+				if(PollResponse.objects.filter(poll=poll).filter(user=request.user)):
+					poll_serialized['is_responded'] = '1'
+				else:
+					poll_serialized['is_responded'] = '0'
 				poll_list.append(poll_serialized)
 			return Response(poll_list)
 		except Exception as e:
