@@ -17,5 +17,6 @@ class Notification(models.Model):
 
 	notification_type = models.CharField(max_length=5, choices=NOTIFICATION_TYPE, default='C')				
 	created_at = models.DateTimeField(auto_now_add=True, blank=True)
+	
 	def __str__(self):
 		return str(self.actor.username) + ' -- ' +str(self.actor.username) + ' -- ' + str(self.created_at)

@@ -110,10 +110,10 @@ class AssignmentCommentView(APIView):
 			assignment = Assignment.objects.get(id=assignment_id)
 			if request.user.username == assignment.classroom.creator.username or request.user in assignment.classroom.moderators.all() or request.user in assignment.classroom.students.all():
 				allComments = assignment.comments.all()
-				serialized_comments = CommentSerializer(allComments, many=True)
-				serialized_assignment = AssignmentSerializer(assignment, many=False)
-				serialized_assignment.data['comments'] = serialized_comments
-				return Response(serialized_assignment.data)
+				serialized_comments = CommentSerializer(allComments, many=True).data
+				serialized_assignment = AssignmentSerializer(assignment, many=False).data
+				serialized_assignment['comments'] = serialized_comments
+				return Response(serialized_assignment)
 			else:
 				return Response({
 					"error": "You aren't enrolled in this classroom."
@@ -147,10 +147,10 @@ class AssignmentCommentView(APIView):
 					assignment.comments.add(comment)
 					assignment.save()
 				allComments = assignment.comments.all()
-				serialized_comments = CommentSerializer(allComments, many=True)
-				serialized_assignment = AssignmentSerializer(assignment, many=False)
-				serialized_assignment.data['comments'] = serialized_comments
-				return Response(serialized_assignment.data)
+				serialized_comments = CommentSerializer(allComments, many=True).data
+				serialized_assignment = AssignmentSerializer(assignment, many=False).data
+				serialized_assignment['comments'] = serialized_comments
+				return Response(serialized_assignment)
 			else:
 				return Response({
 					"error": "You aren't enrolled in this classroom."

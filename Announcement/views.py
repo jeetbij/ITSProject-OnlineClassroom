@@ -110,7 +110,7 @@ class AnnoucementCommentView(APIView):
 					try:
 						comment.parent = Comment.objects.get(id=request.data.get('comment_id'))
 						comment.commenter = request.user
-						comment.comment_text = request.data.get('comment')
+						comment.comment_text = request.data.get('content')
 						comment.save()
 					except Exception as e:
 						return Response({
@@ -124,10 +124,10 @@ class AnnoucementCommentView(APIView):
 					announcement.comment.add(comment)
 					announcement.save()
 				allComments = announcement.comment.all()
-				serialized_comments = CommentSerializer(allComments, many=True)
-				serialized_announcement = AnnouncementSerializer(announcement, many=False)
-				serialized_announcement.data['comments'] = serialized_comments
-				return Response(serialized_announcement.data)
+				serialized_comments = CommentSerializer(allComments, many=True).data
+				serialized_announcement = AnnouncementSerializer(announcement, many=False).data
+				serialized_announcement['comments'] = serialized_comments
+				return Response(serialized_announcement)
 			else:
 				return Response({
 					"error": "You aren't enrolled in this classroom."

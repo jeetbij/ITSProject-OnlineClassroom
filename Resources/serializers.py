@@ -18,6 +18,7 @@ class ResourceSerializer(ModelSerializer):
 			'classroom',
 			'attachment',
 			'description',
+			'is_lecture',
 			'uploaded_on'
 			]
 		read_only_fields = ['id', 'uploaded_on', 'classroom_id']

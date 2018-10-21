@@ -538,7 +538,7 @@ Body
 
 <h3>28. To get all lectures uploaded in a classroom </h3>
 
-GET    ...../resources/?classroom_id=1&&type='lecture'
+GET    ...../resources/?classroom_id=1&type='lecture'
 
 Headers:
   
@@ -548,7 +548,7 @@ Headers:
   
 <h3>29. To get all resources uploaded in a classroom </h3>
 
-GET    ...../resources/?classroom_id=1&&type='resource'
+GET    ...../resources/?classroom_id=1&type='resource'
 
 Headers:
   

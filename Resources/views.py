@@ -8,6 +8,7 @@ from Resources.models import Resource
 from Resources.serializers import ResourceSerializer
 from Classroom.models import Classroom
 from Comment.models import Comment
+from Comment.serializers import CommentSerializer
 # Create your views here.
 
 class ResourceView(APIView):
@@ -30,7 +31,6 @@ class ResourceView(APIView):
 					"error": "Your aren't enrolled in this classroom."
 					}, status=status.HTTP_400_BAD_REQUEST)
 		except Exception as e:
-			print(e)
 			return Response({
 				"error": "Classroom query doesn't exists."
 				}, status=status.HTTP_400_BAD_REQUEST)
@@ -38,7 +38,7 @@ class ResourceView(APIView):
 	def post(self, request, format=None):
 		try:
 			classroom = Classroom.objects.get(id=request.data.get('classroom_id'))
-			if request.data.get('is_lecture'):
+			if request.data.get('is_lecture') == 'True':
 				if request.user.username == classroom.creator.username:
 					serializer = ResourceSerializer(data=request.data)
 					if serializer.is_valid():
@@ -94,15 +94,16 @@ class ResourceCommentView(APIView):
 			resource = Resource.objects.get(id=request.GET.get('resource_id'))
 			if request.user.username == resource.classroom.creator or request.user in resource.classroom.moderators.all() or request.user in resource.classroom.students.all():
 				allComments = resource.comments.all()
-				serialized_comments = CommentSerializer(allComments, many=True)
-				serialized_resource = ResourceSerializer(resource, many=False)
-				serialized_resource.data['comments'] = serialized_comments
-				return Response(serialized_resource.data)
+				serialized_comments = CommentSerializer(allComments, many=True).data
+				serialized_resource = ResourceSerializer(resource, many=False).data
+				serialized_resource['comments'] = serialized_comments
+				return Response(serialized_resource)
 			else:
 				return Response({
 					"error": "You can't see this resource."
 					}, status=status.HTTP_400_BAD_REQUEST)
 		except Exception as e:
+			print(e)
 			return Response({
 				"error": "Resource query doesn't exists."
 				}, status=status.HTTP_400_BAD_REQUEST)
@@ -129,10 +130,10 @@ class ResourceCommentView(APIView):
 				resource.comments.add(comment)
 				resource.save()
 			allComments = resource.comments.all()
-			serialized_comments = CommentSerializer(allComments, many=True)
-			serialized_resource = ResourceSerializer(resource, many=False)
-			serialized_resource.data['comments'] = serialized_comments
-			return Response(serialized_resource.data)
+			serialized_comments = CommentSerializer(allComments, many=True).data
+			serialized_resource = ResourceSerializer(resource, many=False).data
+			serialized_resource['comments'] = serialized_comments
+			return Response(serialized_resource)
 		except Exception as e:
 			return Response({
 				"error": "Resource query doesn't exists."
