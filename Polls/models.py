@@ -9,7 +9,7 @@ class Poll(models.Model):
 	poll_text = models.TextField()
 	created_at = models.DateTimeField(auto_now_add=True, blank=True)
 	def __str__(self):
-		return str(self.creater) + ' -- ' + str(self.created_at)
+		return str(self.creater)+' -- '+  str(self.poll_text)+ ' -- ' + str(self.created_at)
 
 class PollOption(models.Model):
 	parrent_poll = models.ForeignKey(Poll, on_delete=models.CASCADE)
