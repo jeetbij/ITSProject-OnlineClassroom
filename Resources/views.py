@@ -6,6 +6,8 @@ from rest_framework import status
 
 from Resources.models import Resource
 from Resources.serializers import ResourceSerializer
+from Classroom.models import Classroom
+from Comment.models import Comment
 # Create your views here.
 
 class ResourceView(APIView):
@@ -15,21 +17,27 @@ class ResourceView(APIView):
 		try:
 			classroom = Classroom.objects.get(id=request.GET.get('classroom_id'))
 			if request.user.username == classroom.creator.username or request.user in classroom.moderators.all() or request.user in classroom.students.all():
-				resources = Resource.objects.filter(classroom__id=classroom.id)
-				serializer = ResourceSerializer(resources, many=True)
-				return Response(serializer.data)
+				if request.GET.get('type') == 'lecture':
+					resources = Resource.objects.filter(classroom__id=classroom.id, is_lecture=True)
+					serializer = ResourceSerializer(resources, many=True)
+					return Response(serializer.data)
+				elif request.GET.get('type') == 'resource':
+					resources = Resource.objects.filter(classroom__id=classroom.id, is_lecture=False)
+					serializer = ResourceSerializer(resources, many=True)
+					return Response(serializer.data)
 			else:
 				return Response({
 					"error": "Your aren't enrolled in this classroom."
 					}, status=status.HTTP_400_BAD_REQUEST)
 		except Exception as e:
+			print(e)
 			return Response({
 				"error": "Classroom query doesn't exists."
 				}, status=status.HTTP_400_BAD_REQUEST)
 
 	def post(self, request, format=None):
 		try:
-			classroom = Classroom.objects.get(id=request.GET.get('classroom_id'))
+			classroom = Classroom.objects.get(id=request.data.get('classroom_id'))
 			if request.data.get('is_lecture'):
 				if request.user.username == classroom.creator.username:
 					serializer = ResourceSerializer(data=request.data)
