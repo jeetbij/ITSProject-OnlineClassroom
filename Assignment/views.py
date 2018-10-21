@@ -20,7 +20,7 @@ class AssignmentView(APIView):
 		try:
 			classroom = Classroom.objects.get(id=classroom_id)
 			if request.user.username == classroom.creator.username or request.user in classroom.moderators.all() or request.user in classroom.students.all():
-				assignments = Assignment.objects.filter(uploader__username=request.user.username, classroom__id=classroom_id)
+				assignments = Assignment.objects.filter(classroom__id=classroom_id)
 				serialized_assignments = AssignmentSerializer(assignments, many=True).data	
 				return Response(serialized_assignments)
 			else:
@@ -105,7 +105,7 @@ class AssignmentCommentView(APIView):
 	permission_classes = (IsAuthenticated, )
 
 	def get(self, request, format=None):
-		assignment_id = request.data.get('assignment_id')
+		assignment_id = request.GET.get('assignment_id')
 		try:
 			assignment = Assignment.objects.get(id=assignment_id)
 			if request.user.username == assignment.classroom.creator.username or request.user in assignment.classroom.moderators.all() or request.user in assignment.classroom.students.all():

@@ -520,7 +520,7 @@ Body
     		"poll_id": 6
 		}
 
-<h3>26. Add student in a class by join code.</h3>
+<h3>27. Add student in a class by join code.</h3>
 
 POST		http://127.0.0.1:8000/classroom/joinclassroom/
 
@@ -535,5 +535,170 @@ Body
 	"joinCode":"DBMSbbcfd"
 		}
 
+
+<h3>28. To get all lectures uploaded in a classroom </h3>
+
+GET    ...../resources/?classroom_id=1&&type='lecture'
+
+Headers:
+  
+      Authorization : JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6Iml0c2FkbWluIiwiZXhwIjoxNTM5NDQwMjQ3LCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSJ9.jU0oaps5aKpcMf-Du0HDk2jMMBGYsYvEV8NTWS0t5oI
+      Content-Type: application/json
+
+  
+<h3>29. To get all resources uploaded in a classroom </h3>
+
+GET    ...../resources/?classroom_id=1&&type='resource'
+
+Headers:
+  
+      Authorization : JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6Iml0c2FkbWluIiwiZXhwIjoxNTM5NDQwMjQ3LCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSJ9.jU0oaps5aKpcMf-Du0HDk2jMMBGYsYvEV8NTWS0t5oI
+      Content-Type: application/json
 	
-	
+
+<h3>30. Upload lecture in a classroom</h3>
+
+POST    ..../resources/
+
+Headers:
+  
+      Authorization : JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6Iml0c2FkbWluIiwiZXhwIjoxNTM5NDQwMjQ3LCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSJ9.jU0oaps5aKpcMf-Du0HDk2jMMBGYsYvEV8NTWS0t5oI
+      Content-Type: application/json
+
+Body
+
+      {
+  "classroom_id": 1,
+  "attachment" : File,
+  "description" : "Lecture",
+  "is_lecture" : True
+  }
+
+
+<h3>31. Upload resources in a classroom</h3>
+
+POST    ..../resources/
+
+Headers:
+  
+      Authorization : JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6Iml0c2FkbWluIiwiZXhwIjoxNTM5NDQwMjQ3LCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSJ9.jU0oaps5aKpcMf-Du0HDk2jMMBGYsYvEV8NTWS0t5oI
+      Content-Type: application/json
+
+Body
+
+      {
+  "classroom_id": 1,
+  "attachment" : File,
+  "description" : "Resource",
+  "is_lecture" : False
+  }
+
+
+<h3>32. Get all comments on a resource or lecture</h3>
+
+GET    ..../resources/comment/?resource_id=1
+
+Headers:
+  
+      Authorization : JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6Iml0c2FkbWluIiwiZXhwIjoxNTM5NDQwMjQ3LCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSJ9.jU0oaps5aKpcMf-Du0HDk2jMMBGYsYvEV8NTWS0t5oI
+      Content-Type: application/json
+
+
+<h3>33. Post a comment on lecture or resource</h3>
+
+POST    ..../resources/comment/
+
+Headers:
+  
+      Authorization : JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6Iml0c2FkbWluIiwiZXhwIjoxNTM5NDQwMjQ3LCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSJ9.jU0oaps5aKpcMf-Du0HDk2jMMBGYsYvEV8NTWS0t5oI
+      Content-Type: application/json
+
+Body
+
+      {
+  "resource_id": 1,
+  "comment_id" : comment id OR None,
+  "content" : "Comment content"
+  }
+
+
+<h3>34. Get all assignment in a classoom</h3>
+
+GET    ..../assignment/?classroom_id=1
+
+Headers:
+  
+      Authorization : JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6Iml0c2FkbWluIiwiZXhwIjoxNTM5NDQwMjQ3LCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSJ9.jU0oaps5aKpcMf-Du0HDk2jMMBGYsYvEV8NTWS0t5oI
+      Content-Type: application/json
+
+<h3>35. Upload a assignment</h3>
+
+POST    ..../assignment/
+
+Headers:
+  
+      Authorization : JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6Iml0c2FkbWluIiwiZXhwIjoxNTM5NDQwMjQ3LCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSJ9.jU0oaps5aKpcMf-Du0HDk2jMMBGYsYvEV8NTWS0t5oI
+      Content-Type: application/json
+
+Body
+
+      {
+  "classroom_id": 1,
+  "title" : "Assignment Title",
+  "attachment" : File,
+  "deadline" : datetimefield
+  }
+
+<h3>36. Get all submissions of an assignment in a classroom</h3>
+
+GET    ..../assignment/submission/?assignment_id=1
+
+Headers:
+  
+      Authorization : JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6Iml0c2FkbWluIiwiZXhwIjoxNTM5NDQwMjQ3LCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSJ9.jU0oaps5aKpcMf-Du0HDk2jMMBGYsYvEV8NTWS0t5oI
+      Content-Type: application/json
+
+
+<h3>37. Upload Submission</h3>
+
+POST    ..../assignment/submission/
+
+Headers:
+  
+      Authorization : JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6Iml0c2FkbWluIiwiZXhwIjoxNTM5NDQwMjQ3LCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSJ9.jU0oaps5aKpcMf-Du0HDk2jMMBGYsYvEV8NTWS0t5oI
+      Content-Type: application/json
+
+Body
+
+      {
+  "assignment_id": 1,
+  "attachment" : File
+  }
+
+
+<h3>38. Get all comments on an assignment</h3>
+
+GET    ..../assignment/comment/?assignment_id=1
+
+Headers:
+  
+      Authorization : JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6Iml0c2FkbWluIiwiZXhwIjoxNTM5NDQwMjQ3LCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSJ9.jU0oaps5aKpcMf-Du0HDk2jMMBGYsYvEV8NTWS0t5oI
+      Content-Type: application/json
+
+
+<h3>39. Upload Submission</h3>
+
+POST    ..../assignment/comment/
+
+Headers:
+  
+      Authorization : JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6Iml0c2FkbWluIiwiZXhwIjoxNTM5NDQwMjQ3LCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSJ9.jU0oaps5aKpcMf-Du0HDk2jMMBGYsYvEV8NTWS0t5oI
+      Content-Type: application/json
+
+Body
+
+      {
+  "assignment_id": 1,
+  "comment_id" : comment id OR None,
+  "content" : "Comment content"
+  }
