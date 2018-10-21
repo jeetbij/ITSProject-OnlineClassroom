@@ -19,9 +19,7 @@ class PollResponseView(APIView):
 		try:
 			poll_id = request.GET.get('poll_id')
 			poll = Poll.objects.get(id=poll_id)
-			print("poll",poll)
 			poll_responses = PollResponse.objects.filter(poll=poll)
-			print("poll_responses",poll_responses)
 			poll_responses_serialized = PollResponseSerializer(poll_responses,many=True).data
 			return Response(poll_responses_serialized)
 		except Exception as e:
@@ -34,7 +32,6 @@ class PollResponseView(APIView):
 	def post(self, request, format=None):
 		try:
 			poll_response=PollResponse.objects.get(user=request.user)
-			print("alraedy_poll_response",poll_response)
 			poll_response_serialized = PollResponseSerializer(poll_response,many=False).data
 			return Response({
 				"Alert":"Response Already Submitted",
@@ -52,6 +49,7 @@ class PollResponseView(APIView):
 				return Response(poll_response_serialized)
 			except Exception as e:
 				return Response({
+
 					"error": "Poll Response query for this poll or poll_option doesn't exists."
 					}, status=status.HTTP_400_BAD_REQUEST)
 
