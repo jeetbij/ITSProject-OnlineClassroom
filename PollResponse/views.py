@@ -31,7 +31,8 @@ class PollResponseView(APIView):
 
 	def post(self, request, format=None):
 		try:
-			poll_response=PollResponse.objects.get(user=request.user)
+			
+			poll_response=PollResponse.objects.filter(poll=request.data.get('poll_id')).get(user=request.user)
 			poll_response_serialized = PollResponseSerializer(poll_response,many=False).data
 			return Response({
 				"Alert":"Response Already Submitted",

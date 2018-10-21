@@ -77,9 +77,17 @@ class AnnoucementCommentView(APIView):
 			if request.user.username == announcement.classroom.creator.username or request.user in announcement.classroom.moderators.all() or request.user in announcement.classroom.students.all():
 				announcement_serializer = AnnouncementSerializer(announcement, many=False).data
 				allcomments = announcement.comment.all()
-				# allcomments2 = allcomments.filter(parent__isnull=True)
-				serializedcomments = CommentSerializer(allcomments, many=True)
-				announcement_serializer['comments'] = serializedcomments.data
+				print("Start")
+				comments_serialized=[]
+				for comment in allcomments:
+					serializedcomment = CommentSerializer(comment, many=False).data
+					 
+					serializedcomment['has_Upvoted']='1'
+					serializedcomment['has_Downvoted']='1'
+					print(serializedcomment)
+					comments_serialized.append(serializedcomment)
+				# serializedcomments = CommentSerializer(allcomments, many=True)
+				announcement_serializer['comments'] = comments_serialized
 				serializedclassroom = ClassroomSerializer(announcement.classroom, many=False)
 				announcement_serializer['classroom'] = serializedclassroom.data
 				return Response(announcement_serializer)
