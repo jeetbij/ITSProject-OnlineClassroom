@@ -499,10 +499,10 @@ Headers:
 
 Body
 
-    	{
+    		{
     		"poll_id": 1,
     		"poll_option_id": 6
-	}
+		}
 
 <h3>26. To delete a poll :</h3>
 
@@ -516,7 +516,7 @@ Headers:
 
 Body
 
-    	{
+    		{
     		"poll_id": 6
 		}
 
@@ -533,7 +533,7 @@ Body
 
     	{
 	"joinCode":"DBMSbbcfd"
-		}
+	}
 
 
 <h3>28. To get all lectures uploaded in a classroom </h3>
@@ -567,12 +567,12 @@ Headers:
 
 Body
 
-      {
-  "classroom_id": 1,
-  "attachment" : File,
-  "description" : "Lecture",
-  "is_lecture" : True
-  }
+     	 {
+	  "classroom_id": 1,
+	  "attachment" : File,
+	  "description" : "Lecture",
+	  "is_lecture" : True
+	  }
 
 
 <h3>31. Upload resources in a classroom</h3>
@@ -586,12 +586,12 @@ Headers:
 
 Body
 
-      {
-  "classroom_id": 1,
-  "attachment" : File,
-  "description" : "Resource",
-  "is_lecture" : False
-  }
+    	  {
+	  "classroom_id": 1,
+	  "attachment" : File,
+	  "description" : "Resource",
+	  "is_lecture" : False
+	  }
 
 
 <h3>32. Get all comments on a resource or lecture</h3>
@@ -615,11 +615,11 @@ Headers:
 
 Body
 
-      {
-  "resource_id": 1,
-  "comment_id" : comment id OR None,
-  "content" : "Comment content"
-  }
+     	 {
+	  "resource_id": 1,
+	  "comment_id" : comment id OR None,
+	  "content" : "Comment content"
+	  }
 
 
 <h3>34. Get all assignment in a classoom</h3>
@@ -642,12 +642,12 @@ Headers:
 
 Body
 
-      {
-  "classroom_id": 1,
-  "title" : "Assignment Title",
-  "attachment" : File,
-  "deadline" : datetimefield
-  }
+      	  {
+	  "classroom_id": 1,
+	  "title" : "Assignment Title",
+	  "attachment" : File,
+	  "deadline" : datetimefield
+	  }
 
 <h3>36. Get all submissions of an assignment in a classroom</h3>
 
@@ -670,10 +670,10 @@ Headers:
 
 Body
 
-      {
-  "assignment_id": 1,
-  "attachment" : File
-  }
+      		{
+		  "assignment_id": 1,
+		  "attachment" : File
+		}
 
 
 <h3>38. Get all comments on an assignment</h3>
@@ -697,8 +697,8 @@ Headers:
 
 Body
 
-      {
-  "assignment_id": 1,
-  "comment_id" : comment id OR None,
-  "content" : "Comment content"
-  }
+     		 {
+		  "assignment_id": 1,
+		  "comment_id" : comment id OR None,
+		  "content" : "Comment content"
+		 }
