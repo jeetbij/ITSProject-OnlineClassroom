@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from Announcement.models import Announcement
 
 from Announcement.serializers import AnnouncementSerializer
+from AuthUser.serializers import UserSerializer
 from AuthUser.models import User
 from Classroom.models import Classroom
 from Comment.serializers import CommentSerializer
@@ -81,12 +82,15 @@ class AnnoucementCommentView(APIView):
 				comments_serialized=[]
 				for comment in allcomments:
 					serializedcomment = CommentSerializer(comment, many=False).data
-					 
-					serializedcomment['has_Upvoted']='1'
-					serializedcomment['has_Downvoted']='1'
-					print(serializedcomment)
+					if(request.user in comment.upvoters.all()):
+						serializedcomment['has_Upvoted']=1
+					else:
+						serializedcomment['has_Upvoted']=0
+					if(request.user in comment.downvoters.all()):
+						serializedcomment['has_Downvoted']=1
+					else:
+						serializedcomment['has_Downvoted']=0
 					comments_serialized.append(serializedcomment)
-				# serializedcomments = CommentSerializer(allcomments, many=True)
 				announcement_serializer['comments'] = comments_serialized
 				serializedclassroom = ClassroomSerializer(announcement.classroom, many=False)
 				announcement_serializer['classroom'] = serializedclassroom.data
