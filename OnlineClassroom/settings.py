@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'Resources',
     'PollResponse',
     'corsheaders',
+    'Notifications'
 ]
 
 MIDDLEWARE = [
