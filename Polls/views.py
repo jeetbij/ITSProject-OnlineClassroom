@@ -12,6 +12,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from AuthUser.serializers import UserSerializer
 from Polls.serializers import PollSerializer,PollOptionSerializer
+from PollResponse.serializers import PollResponseSerializer
 # Create your views here.
 class PollView(APIView):
 	permission_classes = (IsAuthenticated, )
@@ -27,13 +28,12 @@ class PollView(APIView):
 				poll_options = PollOption.objects.filter(parrent_poll=poll)
 				poll_options_serialized = PollOptionSerializer(poll_options,many=True).data
 				poll_serialized['poll_options'] = poll_options_serialized
-				poll_serialized['is_responded'] = '0'
-				print(PollResponse.objects.filter(poll=poll))
-				print(PollResponse.objects.filter(poll=poll).filter(user=request.user))
-				if(PollResponse.objects.filter(poll=poll).filter(user=request.user)):
-					poll_serialized['is_responded'] = '1'
+				poll_response=PollResponse.objects.filter(poll=poll,user=request.user)
+				if(poll_response):	
+					poll_response_serialized = PollResponseSerializer(poll_response[0],many=False).data
+					poll_serialized['is_responded'] = poll_response_serialized
 				else:
-					poll_serialized['is_responded'] = '0'
+					poll_serialized['is_responded'] = 0
 				poll_list.append(poll_serialized)
 			return Response(poll_list)
 		except Exception as e:
