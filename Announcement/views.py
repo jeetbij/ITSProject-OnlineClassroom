@@ -82,8 +82,8 @@ class AnnoucementCommentView(APIView):
 				for comment in allcomments:
 					serializedcomment = CommentSerializer(comment, many=False).data
 
-					serializedcomment['has_Upvoted']='11'
-					serializedcomment['has_Downvoted']='10'
+					serializedcomment['has_Upvoted']='1'
+					serializedcomment['has_Downvoted']='1'
 					print(serializedcomment)
 					comments_serialized.append(serializedcomment)
 				# serializedcomments = CommentSerializer(allcomments, many=True)
