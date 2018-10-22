@@ -162,7 +162,7 @@ Headers
 Body
 
     {
-    	"id": 1,
+    	"classroom_id": 1,
     	"moderators": ["itsadmin","itsadmin2"]
     }
 <h3>11. To delete moderators in a Classroom:</h3>
