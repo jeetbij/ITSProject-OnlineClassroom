@@ -194,6 +194,7 @@ class ClassroomModeratorView(APIView):
 				}, status=status.HTTP_403_FORBIDDEN)
 
 	def post(self, request, format=None):
+		classroom_id = request.data.get('classroom_id')
 		try:
 			classroom = Classroom.objects.get(id=classroom_id)
 			if request.user.username == classroom.creator.username:
