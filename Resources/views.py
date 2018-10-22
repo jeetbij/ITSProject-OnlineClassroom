@@ -37,6 +37,7 @@ class ResourceView(APIView):
 
 	def post(self, request, format=None):
 		try:
+			print(request.POST, request.data)
 			classroom = Classroom.objects.get(id=request.data.get('classroom_id'))
 			if request.data.get('is_lecture') == 'True':
 				if request.user.username == classroom.creator.username:
