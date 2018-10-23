@@ -162,7 +162,7 @@ Headers
 Body
 
     {
-    	"id": 1,
+    	"classroom_id": 1,
     	"moderators": ["itsadmin","itsadmin2"]
     }
 <h3>11. To delete moderators in a Classroom:</h3>
@@ -356,8 +356,6 @@ Body
 		"type":3,
 		"comment_id": 1,
 		"comment_text": "asdf2",
-		"upvote":"itsadmin2",
-		"downvote":"itsadmin2"
         }
 
 <b>Here:</b>		
@@ -405,9 +403,7 @@ Body
 
     {
 	"type":2,
-	"comment_id": 1,
-	"remove_upvote":"itsadmin2",
-	"remove_downvote":"itsadmin2"
+	"comment_id": 1
     }
 
 <b>Here:</b>	
