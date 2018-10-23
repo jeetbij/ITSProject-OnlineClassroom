@@ -55,16 +55,16 @@ class CommentView(APIView):
 				}, status=status.HTTP_400_BAD_REQUEST)
 
 			elif(query_type == 2):
-				upvoter = request.data.get('upvote')
-				comment.upvoters.add(User.objects.get(username=upvoter))
+				upvoter = request.user
+				comment.upvoters.add(upvoter)
 				print(comment)
 				comment.save()
 				serializer = CommentSerializer(comment,many=False)
 				return Response(serializer.data)
 
 			elif(query_type == 3):
-				downvoter = request.data.get('downvote')
-				comment.downvoters.add(User.objects.get(username=downvoter))
+				downvoter = request.user
+				comment.downvoters.add(downvoter)
 				print(comment)
 				comment.save()
 				serializer = CommentSerializer(comment,many=False)
@@ -86,15 +86,15 @@ class CommentView(APIView):
 			comment = Comment.objects.get(id=request.data.get('comment_id'))
 			query_type = request.data.get('type')
 			if(query_type == 1):
-				remove_upvoter = request.data.get('remove_upvote')
-				comment.upvoters.remove(User.objects.get(username=remove_upvoter))
+				remove_upvoter = request.user
+				comment.upvoters.remove(remove_upvoter)
 				comment.save()
 				serializer = CommentSerializer(comment,many=False)
 				return Response(serializer.data)
 
 			elif(query_type == 2):
-				remove_downvoter = request.data.get('remove_downvote')
-				comment.downvoters.remove(User.objects.get(username=remove_downvoter))
+				remove_downvoter = request.user
+				comment.downvoters.remove(remove_downvoter)
 				comment.save()
 				serializer = CommentSerializer(comment,many=False)
 				return Response(serializer.data)
