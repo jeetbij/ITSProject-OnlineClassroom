@@ -51,7 +51,7 @@ class CommentView(APIView):
 					serializer = CommentSerializer(comment,many=False)
 					return Response(serializer.data)
 				return Response({
-					"error": "Can't access this comment."
+					"error": "Can't edit this comment."
 				}, status=status.HTTP_400_BAD_REQUEST)
 
 			elif(query_type == 2):
