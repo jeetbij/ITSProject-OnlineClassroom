@@ -68,6 +68,17 @@ class AnnouncementView(APIView):
 				"error": "You are not authorized to make changes in this classroom."
 				}, status=status.HTTP_400_BAD_REQUEST)
 
+	def delete(self, request, format=None):
+		announcement_id = request.data.get('annoucement_id')
+		announcement = Announcement.objects.get(id=announcement_id)
+		if request.user.username == announcement.announcer.username:
+			announcement_serializer = AnnouncementSerializer(announcement, many=False).data
+			announcement.delete()
+			return Response({
+				"Action":"This announcement is deleted.",
+				"Announcement":announcement_serializer
+				})
+
 
 class AnnoucementCommentView(APIView):
 	permission_classes = (IsAuthenticated, )
