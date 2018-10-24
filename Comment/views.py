@@ -83,6 +83,7 @@ class CommentView(APIView):
 # type 2: remove downvote
 	def delete(self, request, format=None):
 		try:
+			print(request.data)
 			comment = Comment.objects.get(id=request.data.get('comment_id'))
 			query_type = request.data.get('type')
 			if(query_type == 1):
@@ -103,6 +104,7 @@ class CommentView(APIView):
 			}, status=status.HTTP_400_BAD_REQUEST)
 		
 		except Exception as e:
+			print(e)
 			return Response({
 				"error": "Comment query doesn't exists."
 			}, status=status.HTTP_400_BAD_REQUEST)
