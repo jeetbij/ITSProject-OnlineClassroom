@@ -698,3 +698,19 @@ Body
 			"comment_id" : comment id OR None,
 			"content" : "Comment content"
 		}
+
+
+<h3>40. Delete Announcement</h3>
+
+DELETE    http://127.0.0.1:8080/announcement
+
+Headers:
+  
+      Authorization : JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6Iml0c2FkbWluIiwiZXhwIjoxNTM5NDQwMjQ3LCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSJ9.jU0oaps5aKpcMf-Du0HDk2jMMBGYsYvEV8NTWS0t5oI
+      Content-Type: application/json
+
+Body
+
+		{
+			"annoucement_id":8
+		}
