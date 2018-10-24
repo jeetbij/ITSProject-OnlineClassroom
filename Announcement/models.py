@@ -16,4 +16,4 @@ class Announcement(models.Model):
 		return self.comment.all().count()
 
 	def __str__(self):
-		return str(self.announcer) + ' -- ' + str(self.created_on)
+		return str(self.id) +'---'+str(self.announcer) + ' -- ' + str(self.created_on)
