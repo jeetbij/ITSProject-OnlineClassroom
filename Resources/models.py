@@ -6,7 +6,7 @@ from Comment.models import Comment
 # Create your models here.
 
 def upload_resource_path(instance, filename):
-	return 'Resources/{0}_{1}/{2}'.format(instance.classroom.id, instance.classroom.name, instance.uploader.username, filename)
+	return 'Resources/{0}_{1}/{2}_{3}'.format(instance.classroom.id, instance.classroom.name, instance.uploader.username, filename)
 
 class Resource(models.Model):
 	uploader = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='uploaderResource')
