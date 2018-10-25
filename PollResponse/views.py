@@ -16,6 +16,10 @@ class PollResponseView(APIView):
 	permission_classes = (IsAuthenticated, )
 
 	def get(self, request, format=None):
+		'''To get responses 
+		Take poll_id
+		return list of responses of that poll'''
+
 		try:
 			poll_id = request.GET.get('poll_id')
 			poll = Poll.objects.get(id=poll_id)
@@ -27,11 +31,12 @@ class PollResponseView(APIView):
 				"error": "Poll Response query for this poll doesn't exists."
 				}, status=status.HTTP_400_BAD_REQUEST)
 
-
-
 	def post(self, request, format=None):
+		'''To add a response
+		Take poll_id, poll_option_id
+		return list of responses of that poll'''
+
 		try:
-			
 			poll_response=PollResponse.objects.filter(poll=request.data.get('poll_id')).get(user=request.user)
 			poll_response_serialized = PollResponseSerializer(poll_response,many=False).data
 			return Response({
@@ -53,6 +58,13 @@ class PollResponseView(APIView):
 
 					"error": "Poll Response query for this poll or poll_option doesn't exists."
 					}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+
+
+
 
 
 
