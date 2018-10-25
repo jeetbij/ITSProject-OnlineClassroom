@@ -642,6 +642,7 @@ Body
 		"classroom_id": 1,
 		"title" : "Assignment Title",
 		"attachment" : File,
+		"max_score" : Integer,
 		"deadline" : datetimefield
 	}
 
