@@ -33,6 +33,7 @@ class SubmissionSerializer(ModelSerializer):
 			'submitter',
 			'assignment_id',
 			'attachment',
+			'score',
 			'submitted_on'
 			]
 
