@@ -2,7 +2,7 @@ from django.conf import settings
 from django.db import models
 from Classroom.models import Classroom
 from Comment.models import Comment
-import datetime
+from django.utils import timezone
 
 # Create your models here.
 
@@ -36,7 +36,8 @@ class Submission(models.Model):
 
 	def save(self, *args, **kwargs):
 		if not self.id or self.score < 0:
-			if self.assignment.deadline > datetime.datetime.now():
+			print(timezone.now())
+			if self.assignment.deadline > timezone.now():
 				super(Submission, self).save(*args, **kwargs)
 			else:
 				return "You can't upload assignment after deadline."

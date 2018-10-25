@@ -142,6 +142,7 @@ class SubmissionView(APIView):
 					"error": "You aren't enrolled in this classroom."
 					}, status=status.HTTP_400_BAD_REQUEST)
 		except Exception as e:
+			print(e)
 			return Response({
 				"error": "Assignment query doesn't exists."
 				}, status=status.HTTP_400_BAD_REQUEST)
