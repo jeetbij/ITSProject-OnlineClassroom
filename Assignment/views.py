@@ -21,17 +21,8 @@ class AssignmentView(APIView):
 			classroom = Classroom.objects.get(id=classroom_id)
 			if request.user.username == classroom.creator.username or request.user in classroom.moderators.all() or request.user in classroom.students.all():
 				assignments = Assignment.objects.filter(classroom__id=classroom_id)
-				serialized_assignments = AssignmentSerializer(assignments, many=True).data
-				if not request.user.is_faculty:
-					assignments = list()
-					for assignment in serialized_assignments:
-						try:
-							submission = Submission.objects.get(assignment__id=assignment.id, submitter__username=request.user.username)
-							assignment['submission'] = SubmissionSerializer(submission, many=False).data
-							assignments.append(assignment)
-						except Exception as e:
-							pass
-				return Response(assignments)
+				serialized_assignments = AssignmentSerializer(assignments, many=True).data	
+				return Response(serialized_assignments)
 			else:
 				return Response({
 					"error": "You aren't enrolled in this classroom."
@@ -84,14 +75,14 @@ class SubmissionView(APIView):
 
 	def put(self, request, format=None):
 		assignment_id = request.data.get('assignment_id')
-		students = request.data.getlist('scores')
+		students = request.data.get('scores')
 		try:
 			assignment = Assignment.objects.get(id=assignment_id)
 			if request.user.is_faculty and request.user.username == assignment.uploader.username:
 				submissionList = list()
 				for student in students:
 					submission = Submission.objects.get(submitter__username=student['username'], assignment__id=assignment_id)
-					submission.score = student['score']
+					submission.score = int(student['score'])
 					submission.save()
 					submissionList.append(submission)
 				serialized_submissions = SubmissionSerializer(submissionList, many=True)
