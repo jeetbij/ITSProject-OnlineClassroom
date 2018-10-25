@@ -14,7 +14,7 @@ from rest_framework import status
 
 class AssignmentView(APIView):
 	permission_classes = (IsAuthenticated, )
-
+	
 	def get(self, request, format=None):
 		classroom_id = request.GET.get('classroom_id')
 		try:

@@ -1,6 +1,4 @@
 from rest_framework.views import APIView
-
-
 from .models import Classroom
 from .serializers import ClassroomSerializer
 from AuthUser.serializers import UserSerializer
@@ -10,13 +8,15 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from rest_framework.response import Response
 from rest_framework import status
-# Create your views here.
 from rest_framework import status	
 
 class ClassroomView(APIView):
 	permission_classes = (IsAuthenticated,)
 
 	def get(self, request, format=None):
+		'''To get Classrooms for students, moderators, faculty.
+		return classrooms where the user enrolled as faculty, moderator and student'''
+
 		classroom = Classroom.objects.filter(creator__username=request.user.username)
 		classroom_moderator = Classroom.objects.filter(moderators=request.user)
 		classroom_student = Classroom.objects.filter(students=request.user)
@@ -30,6 +30,10 @@ class ClassroomView(APIView):
 			})
 
 	def post(self, request, format=None):
+		''' To create Classroom.
+		Takes classroom_name and discription
+		returns the new created classroom'''
+
 		try:
 			classroom_name = request.data.get('name')
 			if request.user.is_faculty:
@@ -50,6 +54,10 @@ class ClassroomView(APIView):
 				}, status=status.HTTP_400_BAD_REQUEST)
 
 	def put(self, request, format=None):
+		'''To edit Classroom Object.
+		Takes classroom_id, name and description.
+		returns the edited classroom.'''
+
 		classroom_id = request.data.get('id')
 		try:
 			classroom = Classroom.objects.get(id=classroom_id)
@@ -72,6 +80,10 @@ class ClassroomView(APIView):
 				}, status=status.HTTP_400_BAD_REQUEST)
 
 	def delete(self, request, format=None):
+		'''To delete Classroom Object.
+		Takes classroom_id.
+		returns successful message'''
+
 		classroom_id = request.data.get('classroom_id')
 		try:
 			classroom = Classroom.objects.get(id=classroom_id)
@@ -94,6 +106,10 @@ class JoinClassroom(APIView):
 	permission_classes = (IsAuthenticated, )
 
 	def post(self, request, format=None):
+		'''To join classroom through a unique code.
+		Takes the unique code as joinCode
+		returns the classroom object'''
+
 		classroom_code = request.data.get('joinCode')
 		try:
 			classroom = Classroom.objects.get(code=classroom_code)
@@ -111,6 +127,9 @@ class ClassroomStudentView(APIView):
 	permission_classes = (IsAuthenticated,)
 
 	def get(self, request, format=None):
+		'''To get students in a classroom.
+		Takes the classroom_id
+		return the list of student objects'''
 		classroom_id = request.GET.get('id')
 		try:
 			classroom = Classroom.objects.get(id=classroom_id)
@@ -128,6 +147,9 @@ class ClassroomStudentView(APIView):
 				}, status=status.HTTP_403_FORBIDDEN)
 
 	def post(self, request, format=None):
+		'''To add students in a classroom by the faculty.
+		Takes the classroom_id, students(list)
+		return the Classroomobject with list of student objects in that classroom'''
 		classroom_id = request.data.get('id')
 		try:
 			classroom = Classroom.objects.get(id=classroom_id)
@@ -150,6 +172,9 @@ class ClassroomStudentView(APIView):
 				}, status=status.HTTP_403_FORBIDDEN)
 
 	def put(self, request, format=None):
+		'''To remove students in a classroom by the faculty.
+		Takes the classroom_id, students_to_remove(list)
+		return the Classroomobject with list of student objects in that classroom'''
 		classroom_id = request.data.get('classroom_id')
 		try:
 			classroom = Classroom.objects.get(id=classroom_id)
@@ -177,6 +202,9 @@ class ClassroomModeratorView(APIView):
 	permission_classes = (IsAuthenticated,)
 
 	def get(self, request, format=None):
+		'''To get moderators in a classroom.
+		Takes the classroom_id
+		return the list of moderator objects'''
 		classroom_id = request.GET.get('id')
 		try:
 			classroom = Classroom.objects.get(id=classroom_id)
@@ -194,6 +222,9 @@ class ClassroomModeratorView(APIView):
 				}, status=status.HTTP_403_FORBIDDEN)
 
 	def post(self, request, format=None):
+		'''To add moderators in a classroom by the faculty.
+		Takes the classroom_id, moderators(list)
+		return the Classroomobject with list of student objects in that classroom'''
 		classroom_id = request.data.get('classroom_id')
 		try:
 			classroom = Classroom.objects.get(id=classroom_id)
@@ -216,6 +247,9 @@ class ClassroomModeratorView(APIView):
 				}, status=status.HTTP_403_FORBIDDEN)
 
 	def put(self, request, format=None):
+		'''To remove moderators in a classroom by the faculty.
+		Takes the classroom_id, moderators(list)
+		return the Classroomobject with list of student objects in that classroom'''
 		classroom_id = request.data.get('classroom_id')
 		try:
 			classroom = Classroom.objects.get(id=classroom_id)
