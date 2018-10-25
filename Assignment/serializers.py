@@ -16,6 +16,7 @@ class AssignmentSerializer(ModelSerializer):
 			'uploader',
 			'classroom',
 			'attachment',
+			'max_score',
 			'deadline',
 			'created_on'
 			]
