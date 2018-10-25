@@ -95,9 +95,10 @@ class CommentView(APIView):
 		# type 2: remove downvote
 		returns the final comment object.'''
 		try:
-			print(request.data)
-			comment = Comment.objects.get(id=request.data.get('comment_id'))
-			query_type = request.data.get('type')
+			print(request.GET)
+			comment = Comment.objects.get(id=int(request.GET.get('comment_id')))
+			query_type = int(request.GET.get('type'))
+			print(comment, query_type)
 			if(query_type == 1):
 				remove_upvoter = request.user
 				comment.upvoters.remove(remove_upvoter)
