@@ -73,6 +73,32 @@ class SubmissionView(APIView):
 				"error": "Assignment query doesn't exists."
 				}, status=status.HTTP_400_BAD_REQUEST)
 
+	def put(self, request, format=None):
+		assignment_id = request.data.get('assignment_id')
+		students = request.data.getlist('scores')
+		try:
+			assignment = Assignment.objects.get(id=assignment_id)
+			if request.user.is_faculty and request.user.username == assignment.uploader.username:
+				submissionList = list()
+				for student in students:
+					submission = Submission.objects.get(submitter__username=student['username'], assignment__id=assignment_id)
+					submission.score = student['score']
+					submission.save()
+					submissionList.append(submission)
+				serialized_submissions = SubmissionSerializer(submissionList, many=True)
+				return Response(serialized_submissions.data)
+			else:
+				submission = Submission.objects.get(assignment_id=assignment.id, submitter__username=request.user.username)
+				submission.attachment = request.data.get('attachment')
+				submission.save()
+				serializer = SubmissionSerializer(submission, many=False)
+				return Response(serializer.data)
+		except Exception as e:
+			return Response({
+				"error": "Assignment OR Submission query doesn't exists."
+				}, status=status.HTTP_400_BAD_REQUEST)
+
+
 	def post(self, request, format=None):
 		assignment_id = request.data.get('assignment_id')
 		try:
