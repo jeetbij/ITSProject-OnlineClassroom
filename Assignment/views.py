@@ -21,7 +21,14 @@ class AssignmentView(APIView):
 			classroom = Classroom.objects.get(id=classroom_id)
 			if request.user.username == classroom.creator.username or request.user in classroom.moderators.all() or request.user in classroom.students.all():
 				assignments = Assignment.objects.filter(classroom__id=classroom_id)
-				serialized_assignments = AssignmentSerializer(assignments, many=True).data	
+				serialized_assignments = AssignmentSerializer(assignments, many=True).data
+				if not request.user.is_faculty:
+					for assignment in serialized_assignments:
+						try:
+							submission = Submission.objects.get(assignment__id=assignment.id, submitter__username=request.user.username)
+							assignment['submission'] = SubmissionSerializer(submission, many=False).data
+						except Exception as e:
+							pass
 				return Response(serialized_assignments)
 			else:
 				return Response({
