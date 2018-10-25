@@ -42,7 +42,7 @@ class Submission(models.Model):
 			else:
 				return "You can't upload assignment after deadline."
 		
-		if self.score <= self.assignment.max_score:
+		elif self.score <= self.assignment.max_score:
 			super(Submission, self).save(*args, **kwargs)
 		else:
 			return "Score can't greater than Max score."
