@@ -18,6 +18,9 @@ class PollView(APIView):
 	permission_classes = (IsAuthenticated, )
 
 	def get(self, request, format=None):
+		''' To get polls and its poll options from a class.
+		Takes classroom_id
+		Return poll list with its options'''
 		try:
 			classroom_id = request.GET.get('classroom_id')
 			classroom = Classroom.objects.get(id=classroom_id)
@@ -41,23 +44,24 @@ class PollView(APIView):
 				"error": "Classroom query for polls doesn't exists."
 				}, status=status.HTTP_400_BAD_REQUEST)
 	
-
-
-
 	def post(self, request, format=None):
-		'''	type 1: Add Poll
+		'''	To add poll and poll options.
+		Take:
+			type 1: Add Poll
 			{
-			"type":1,
-			"classroom_id":1,
-			"poll_text":"Which Bike",
+				"type":1,
+				"classroom_id":1,
+				"poll_text":"Which Bike"
 			}
-
 			type 2: Add PollOptions
 			{
 				"type":2,
 				"parent_poll_id": 5,
 				"poll_option_text":"KTM 2"
-			}'''
+			}
+
+		Returns:
+			poll object or polloption object'''
 
 		try:
 			query_type = request.data.get('type')
@@ -89,11 +93,12 @@ class PollView(APIView):
 			}, status=status.HTTP_400_BAD_REQUEST)
 
 	def delete(self, request, format=None):
+		'''To delete a poll.
+		Takes poll_id
+		returns a msg'''
 		poll = Poll.objects.get(id=request.data.get('poll_id'))
 		poll_serialized = PollSerializer(poll,many=False)
-		print("poll",poll)
 		poll.delete()
-		print("poll",poll)
 		return Response("Poll deleted")
 
 
@@ -102,10 +107,3 @@ class PollView(APIView):
 
 
 
-
-
-
-
-
-
-		
