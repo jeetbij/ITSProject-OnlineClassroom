@@ -23,13 +23,15 @@ class AssignmentView(APIView):
 				assignments = Assignment.objects.filter(classroom__id=classroom_id)
 				serialized_assignments = AssignmentSerializer(assignments, many=True).data
 				if not request.user.is_faculty:
+					assignments = list()
 					for assignment in serialized_assignments:
 						try:
 							submission = Submission.objects.get(assignment__id=assignment.id, submitter__username=request.user.username)
 							assignment['submission'] = SubmissionSerializer(submission, many=False).data
+							assignments.append(assignment)
 						except Exception as e:
 							pass
-				return Response(serialized_assignments)
+				return Response(assignments)
 			else:
 				return Response({
 					"error": "You aren't enrolled in this classroom."
