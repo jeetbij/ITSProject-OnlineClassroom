@@ -95,7 +95,7 @@ class CommentView(APIView):
 		# type 2: remove downvote
 		returns the final comment object.'''
 		try:
-			print(request)
+			print(request.GET)
 			comment = Comment.objects.get(id=request.GET.get('comment_id'))
 			query_type = request.GET.get('type')
 			if(query_type == 1):
