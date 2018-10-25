@@ -15,6 +15,9 @@ class CommentView(APIView):
 	permission_classes = (IsAuthenticated, )
 
 	def get(self, request, format=None):
+		'''To get comments with upvoters, downvoters and its child.
+		Takes the comment_id.
+		return the comment object with list of upvoters, list of downvoters and list of its child'''
 		try:
 			comment = Comment.objects.get(id=request.GET.get('id'))
 			print(comment)
@@ -36,11 +39,16 @@ class CommentView(APIView):
 				"error": "Comment query doesn't exists."
 				}, status=status.HTTP_400_BAD_REQUEST)
 
-# type 1: comment edit
-# type 2: upvote
-# type 3: downvote
+
 
 	def put(self, request, format=None):
+		'''To edit comment, add upvote or add a downvote.
+		Takes comment_id, type, comment_text(only if type=1)
+		# type 1: comment edit
+		# type 2: upvote
+		# type 3: downvote
+		returns the final comment object.'''
+
 		try:
 			comment = Comment.objects.get(id=request.data.get('comment_id'))
 			query_type = request.data.get('type')
@@ -79,9 +87,13 @@ class CommentView(APIView):
 			}, status=status.HTTP_400_BAD_REQUEST)
 
 
-# type 1: remove upvote
-# type 2: remove downvote
+
 	def delete(self, request, format=None):
+		'''To remove upvote or downvote.
+		Takes comment_id and type.
+		# type 1: remove upvote
+		# type 2: remove downvote
+		returns the final comment object.'''
 		try:
 			print(request.data)
 			comment = Comment.objects.get(id=request.data.get('comment_id'))

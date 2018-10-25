@@ -3,7 +3,6 @@ from rest_framework.views import APIView
 from django.http import HttpResponse
 from rest_framework.response import Response
 from Announcement.models import Announcement
-
 from Announcement.serializers import AnnouncementSerializer
 from AuthUser.serializers import UserSerializer
 from AuthUser.models import User
@@ -11,15 +10,17 @@ from Classroom.models import Classroom
 from Comment.serializers import CommentSerializer
 from Classroom.serializers import ClassroomSerializer
 from Comment.models import Comment
-
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
-# Create your views here.
 
 class AnnouncementView(APIView):
 	permission_classes = (IsAuthenticated, )
 
 	def get(self, request, format=None):
+		'''To get announcements from a classroom.
+		Takes classroom_id.
+		returns list of announcements in that classroom.'''
+
 		classroom_id = request.GET.get('classroom_id')
 		try:
 			announcements = Announcement.objects.filter(classroom__id=classroom_id)
@@ -31,6 +32,10 @@ class AnnouncementView(APIView):
 				}, status=status.HTTP_400_BAD_REQUEST)
 
 	def post(self, request, format=None):
+		'''To post announcements in a classroom.
+		Takes content, announcer, classroom_id.
+		returns the announcement object.'''
+
 		try:
 			classroom = Classroom.objects.get(id=request.data.get('classroom_id'))
 			if request.user.username == classroom.creator.username:
@@ -50,6 +55,10 @@ class AnnouncementView(APIView):
 				}, status=status.HTTP_400_BAD_REQUEST)
 
 	def put(self, request, format=None):
+		'''To edit announcements in a classroom.
+		Takes content, classroom_id.
+		returns the announcement object.'''
+
 		try:
 			announcement_id = request.data.get('annoucement_id')
 			announcement = Announcement.objects.get(id=announcement_id)
@@ -69,6 +78,10 @@ class AnnouncementView(APIView):
 				}, status=status.HTTP_400_BAD_REQUEST)
 
 	def delete(self, request, format=None):
+		'''To delete announcements in a classroom.
+		Takes annoucement_id.
+		returns the deleted announcement object with a message.'''
+
 		announcement_id = request.data.get('annoucement_id')
 		announcement = Announcement.objects.get(id=announcement_id)
 		if request.user.username == announcement.announcer.username:
@@ -84,6 +97,10 @@ class AnnoucementCommentView(APIView):
 	permission_classes = (IsAuthenticated, )
 
 	def get(self, request, format=None):
+		'''To get comment in an announcement.
+		Takes annoucement_id.
+		returns the announcement object with a list of comments.'''
+
 		try:
 			announcement = Announcement.objects.get(id=request.GET.get('id'))
 			if request.user.username == announcement.classroom.creator.username or request.user in announcement.classroom.moderators.all() or request.user in announcement.classroom.students.all():
@@ -116,6 +133,10 @@ class AnnoucementCommentView(APIView):
 				}, status=status.HTTP_400_BAD_REQUEST)
 
 	def post(self, request, format=None):
+		'''To post a comment in an announcement.
+		Takes annoucement_id, parrent_comment_id and comment_text.
+		returns the announcement object with a list of comments.'''
+
 		announcement_id = request.data.get('announcement_id')
 		try:
 			announcement = Announcement.objects.get(id=announcement_id)
