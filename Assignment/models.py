@@ -36,7 +36,6 @@ class Submission(models.Model):
 
 	def save(self, *args, **kwargs):
 		if not self.id or self.score < 0:
-			print(timezone.now())
 			if self.assignment.deadline > timezone.now():
 				super(Submission, self).save(*args, **kwargs)
 			else:

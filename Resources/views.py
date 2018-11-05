@@ -60,18 +60,22 @@ class ResourceView(APIView):
 						"error": "You aren't authorized to upload lectures in this classroom."
 						}, status=status.HTTP_400_BAD_REQUEST)
 			else:
+				print("resource")
 				if request.user.username == classroom.creator.username or request.user in classroom.moderators.all() or request.user in classroom.students.all():
 					serializer = ResourceSerializer(data=request.data)
+					print(request.data)
 					if serializer.is_valid():
 						serializer.save(uploader=request.user, classroom=classroom)
 						return Response(serializer.data)
 					else:
+						print("error")
 						return Response(serializer.errors)
 				else:
 					return Response({
 						"error": "You aren't enrolled in this classroom."
 						}, status=status.HTTP_400_BAD_REQUEST)
 		except Exception as e:
+			print(e)
 			return Response({
 				"error": "Classroom query doesn't exists."
 				}, status=status.HTTP_400_BAD_REQUEST)
