@@ -133,10 +133,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'OnlineClassroom',
-        'USER': 'its',
+        'USER': 'root',
         'PASSWORD': 'itsproject',
-        'HOST': 'itsdb.c4idvpseeifj.ap-south-1.rds.amazonaws.com',
-        'PORT': 3306,
+        'HOST': '35.185.162.30',
     }
 }
 
