@@ -16,6 +16,10 @@ class AssignmentView(APIView):
 	permission_classes = (IsAuthenticated, )
 	
 	def get(self, request, format=None):
+		'''To get all assignments in a user enrolled classroom 
+		Takes classroom_id
+		Returns all assignments'''
+
 		classroom_id = request.GET.get('classroom_id')
 		try:
 			classroom = Classroom.objects.get(id=classroom_id)
@@ -33,6 +37,10 @@ class AssignmentView(APIView):
 				}, status=status.HTTP_400_BAD_REQUEST)
 
 	def post(self, request, format=None):
+		'''To upload a assignment in a classroom
+		Takes Classroom_id, title, attachment, deadline and max_score
+		Returns newly created assignment'''
+
 		try:
 			classroom = Classroom.objects.get(id=request.data.get('classroom_id'))
 			if classroom.creator.username == request.user.username:
@@ -57,6 +65,10 @@ class SubmissionView(APIView):
 	permission_classes = (IsAuthenticated, )
 	
 	def get(self, request, format=None):
+		'''To get all submissions of an assignment or a user uploaded submission
+		Takes assignment_id
+		Returns all submissions if user is student else returns all submissions of that assignment'''
+
 		assignment_id = request.GET.get('assignment_id')
 		try:
 			assignment = Assignment.objects.get(id=assignment_id)
@@ -74,6 +86,10 @@ class SubmissionView(APIView):
 				}, status=status.HTTP_400_BAD_REQUEST)
 
 	def put(self, request, format=None):
+		'''To grade assignment submissions OR to change uploaded submission attachment
+		Takes assignment_id, scores(is a list of objects(username and score)) or attachment
+		Returns submissions with updated score if user is faculty otherwise returns submission with updated attachment'''
+
 		assignment_id = request.data.get('assignment_id')
 		students = request.data.get('scores')
 		try:
@@ -100,6 +116,10 @@ class SubmissionView(APIView):
 
 
 	def post(self, request, format=None):
+		'''To upload submission or update uploaded submission
+		Takes assignment_id, attachment
+		Returns newly uploaded or updated submission'''
+
 		assignment_id = request.data.get('assignment_id')
 		try:
 			assignment = Assignment.objects.get(id=assignment_id)
@@ -122,6 +142,7 @@ class SubmissionView(APIView):
 					"error": "You aren't enrolled in this classroom."
 					}, status=status.HTTP_400_BAD_REQUEST)
 		except Exception as e:
+			print(e)
 			return Response({
 				"error": "Assignment query doesn't exists."
 				}, status=status.HTTP_400_BAD_REQUEST)
@@ -131,6 +152,10 @@ class AssignmentCommentView(APIView):
 	permission_classes = (IsAuthenticated, )
 
 	def get(self, request, format=None):
+		'''To get all comments on an assignment
+		Takes assignment_id
+		Returns all comments with assignment'''
+
 		assignment_id = request.GET.get('assignment_id')
 		try:
 			assignment = Assignment.objects.get(id=assignment_id)
@@ -150,6 +175,10 @@ class AssignmentCommentView(APIView):
 				}, status=status.HTTP_400_BAD_REQUEST)
 
 	def post(self, request, format=None):
+		'''To post a comment on an assignment
+		Takes assignment_id, comment_id(if replying a comment), content
+		Returns assignment with comments'''
+		
 		assignment_id = request.data.get('assignment_id')
 		try:
 			assignment = Assignment.objects.get(id=assignment_id)

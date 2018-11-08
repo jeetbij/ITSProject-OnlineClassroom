@@ -15,6 +15,10 @@ class ResourceView(APIView):
 	permission_classes = (IsAuthenticated, )
 
 	def get(self, request, format=None):
+		'''To get all resources in a classroom
+		Takes classroom_id, type(lecture OR resource)
+		Return all lectures if type is lecture else returns all resources'''
+
 		try:
 			classroom = Classroom.objects.get(id=request.GET.get('classroom_id'))
 			if request.user.username == classroom.creator.username or request.user in classroom.moderators.all() or request.user in classroom.students.all():
@@ -36,6 +40,10 @@ class ResourceView(APIView):
 				}, status=status.HTTP_400_BAD_REQUEST)
 
 	def post(self, request, format=None):
+		'''To upload a lecture OR a resource
+		Takes classroom_id, is_lecture(True OR False), attachment, description
+		Returns newly created object'''
+
 		try:
 			print(request.POST, request.data)
 			classroom = Classroom.objects.get(id=request.data.get('classroom_id'))
@@ -69,6 +77,10 @@ class ResourceView(APIView):
 				}, status=status.HTTP_400_BAD_REQUEST)
 
 	def delete(self, request, format=None):
+		'''To delete a resource OR lecture
+		Takes resource_id
+		Returns success if deleted else returns error message'''
+
 		try:
 			resource = Response.objects.get(id=request.data.get('resource_id'))
 			if request.user.username == resource.uploader.username or request.user.username == resource.classroom.creator.username:
@@ -91,6 +103,10 @@ class ResourceCommentView(APIView):
 	permission_classes = (IsAuthenticated, )
 
 	def get(self, request, format=None):
+		'''To get all comments on a resource
+		Takes resource_id
+		Returns resource with all comments'''
+
 		try:
 			resource = Resource.objects.get(id=request.GET.get('resource_id'))
 			if request.user.username == resource.classroom.creator or request.user in resource.classroom.moderators.all() or request.user in resource.classroom.students.all():
@@ -110,6 +126,10 @@ class ResourceCommentView(APIView):
 				}, status=status.HTTP_400_BAD_REQUEST)
 
 	def post(self, request, format=None):
+		'''To post a comment on a resource
+		Takes resource_id, comment_id(if replying a comment), content
+		Returns resource with all comments'''
+		
 		try:
 			resource = Resource.objects.get(id=request.data.get('resource_id'))
 			comment = Comment()

@@ -109,6 +109,16 @@ WSGI_APPLICATION = 'OnlineClassroom.wsgi.application'
 #         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'OnlineClassroom',
+        'USER': 'root',
+        'PASSWORD': 'itsproject',
+        'HOST': '35.185.162.30',
+    }
+}
 # Hosted MySql Database
 # DATABASES = {
 #     'default': {
@@ -129,16 +139,16 @@ WSGI_APPLICATION = 'OnlineClassroom.wsgi.application'
 #     'HOST': 'garvitkataria10.mysql.pythonanywhere-services.com',
 # }}
 # Hosted MySql Database
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'OnlineClassroom',
-        'USER': 'its',
-        'PASSWORD': 'itsproject',
-        'HOST': 'itsdb.c4idvpseeifj.ap-south-1.rds.amazonaws.com',
-        'PORT': 3306,
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'OnlineClassroom',
+#         'USER': 'its',
+#         'PASSWORD': 'itsproject',
+#         'HOST': 'itsdb.c4idvpseeifj.ap-south-1.rds.amazonaws.com',
+#         'PORT': 3306,
+#     }
+# }
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
