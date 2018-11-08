@@ -119,36 +119,7 @@ DATABASES = {
         'HOST': '35.185.162.30',
     }
 }
-# Hosted MySql Database
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'onlineclassroom',
-#         'USER': 'garvit',
-#         'PASSWORD': 'itsproject',
-#         'HOST': 'db4free.net/',
-#         'PORT': '3306',
-#     }
-# }
-# DATABASES = {
-# 'default': {
-#     'ENGINE': 'django.db.backends.mysql',
-#     'NAME': 'garvitkataria10$default',
-#     'USER': 'garvitkataria10',
-#     'PASSWORD': 'itsproject',
-#     'HOST': 'garvitkataria10.mysql.pythonanywhere-services.com',
-# }}
-# Hosted MySql Database
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'OnlineClassroom',
-#         'USER': 'its',
-#         'PASSWORD': 'itsproject',
-#         'HOST': 'itsdb.c4idvpseeifj.ap-south-1.rds.amazonaws.com',
-#         'PORT': 3306,
-#     }
-# }
+
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
