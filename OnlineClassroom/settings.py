@@ -114,12 +114,22 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'OnlineClassroom',
-        'USER': 'root',
-        'PASSWORD': 'itsproject',
-        'HOST': '35.185.162.30',
+        'USER': 'garvit',
+        'PASSWORD': 'qazwsxedc',
+        'HOST': '35.202.115.150',
+           'PORT': 3306,
     }
 }
-
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'OnlineClassroom',
+#         'USER': 'root',
+#         'PASSWORD': '123kat123',
+#         'HOST': 'localhost',
+#         'PORT': '3306',
+#     }
+# }
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
