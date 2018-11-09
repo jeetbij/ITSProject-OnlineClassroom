@@ -109,26 +109,7 @@ REDIRECT_URL = 'http://localhost:8080'
 #         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 #     }
 # }
-# Hosted MySql Database
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'onlineclassroom',
-#         'USER': 'garvit',
-#         'PASSWORD': 'itsproject',
-#         'HOST': 'db4free.net/',
-#         'PORT': '3306',
-#     }
-# }
-# DATABASES = {
-# 'default': {
-#     'ENGINE': 'django.db.backends.mysql',
-#     'NAME': 'garvitkataria10$default',
-#     'USER': 'garvitkataria10',
-#     'PASSWORD': 'itsproject',
-#     'HOST': 'garvitkataria10.mysql.pythonanywhere-services.com',
-# }}
-# Hosted MySql Database
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -136,8 +117,19 @@ DATABASES = {
         'USER': 'garvit',
         'PASSWORD': 'qazwsxedc',
         'HOST': '35.202.115.150',
+        'PORT': 3306,
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'OnlineClassroom',
+#         'USER': 'root',
+#         'PASSWORD': '123kat123',
+#         'HOST': 'localhost',
+#         'PORT': '3306',
+#     }
+# }
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
