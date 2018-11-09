@@ -86,7 +86,7 @@ TEMPLATES = [
 
 AUTH_USER_MODEL = 'AuthUser.User'
 WSGI_APPLICATION = 'OnlineClassroom.wsgi.application'
-
+REDIRECT_URL = 'http://localhost:8080'
 
 # # Hosted MySql Database
 # DATABASES = {
@@ -107,6 +107,18 @@ WSGI_APPLICATION = 'OnlineClassroom.wsgi.application'
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
 #         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'OnlineClassroom',
+#         'USER': 'garvit',
+#         'PASSWORD': 'qazwsxedc',
+#         'HOST': '35.202.115.150',
+#         'PORT': 3306,
 #     }
 # }
 
