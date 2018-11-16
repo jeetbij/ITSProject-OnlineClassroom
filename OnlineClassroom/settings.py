@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     'Resources',
     'PollResponse',
     'corsheaders',
-    'Notifications'
+    'Notifications',
+    'Storage',
 ]
 
 MIDDLEWARE = [
@@ -86,7 +87,8 @@ TEMPLATES = [
 
 AUTH_USER_MODEL = 'AuthUser.User'
 WSGI_APPLICATION = 'OnlineClassroom.wsgi.application'
-REDIRECT_URL = 'http://localhost:8080'
+REDIRECT_URL = 'http://35.200.250.64:8889'
+DEFAULT_STORAGE_LIMIT = 1024*1024*1024
 
 # # Hosted MySql Database
 # DATABASES = {
@@ -114,9 +116,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'OnlineClassroom',
-        'USER': 'garvit',
+        'USER': 'its',
         'PASSWORD': 'qazwsxedc',
-        'HOST': '35.202.115.150',
+        'HOST': 'localhost',
         'PORT': 3306,
     }
 }
