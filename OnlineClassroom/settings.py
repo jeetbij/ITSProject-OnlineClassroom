@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     'Resources',
     'PollResponse',
     'corsheaders',
-    'Notifications'
+    'Notifications',
+    'Storage',
 ]
 
 MIDDLEWARE = [
@@ -86,7 +87,8 @@ TEMPLATES = [
 
 AUTH_USER_MODEL = 'AuthUser.User'
 WSGI_APPLICATION = 'OnlineClassroom.wsgi.application'
-REDIRECT_URL = 'http://localhost:8080'
+REDIRECT_URL = 'http://35.200.250.64:8889'
+DEFAULT_STORAGE_LIMIT = 1024*1024*1024
 
 # # Hosted MySql Database
 # DATABASES = {
