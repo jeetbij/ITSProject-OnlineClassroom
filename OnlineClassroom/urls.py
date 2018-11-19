@@ -30,6 +30,7 @@ urlpatterns = [
     path('assignment/', include('Assignment.urls')),
     path('polls/', include('Polls.urls')),
     path('resources/', include('Resources.urls')),
+    path('storage/', include('Storage.urls')),
     path('poll_response/', include('PollResponse.urls')),
     path('notification/', include('Notifications.urls')),
 
