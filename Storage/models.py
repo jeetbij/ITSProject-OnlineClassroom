@@ -9,7 +9,7 @@ def userDocumentUploadPath(filename, instance):
 class UploadDocument(models.Model):
 	fileName = models.CharField(max_length=500, null=True, blank=True)
 	document = models.FileField(upload_to=userDocumentUploadPath, null=True, blank=True)
-	limit = models.InegerField(default=settings.DEFAULT_STORAGE_LIMIT)
+	limit = models.IntegerField(default=settings.DEFAULT_STORAGE_LIMIT)
 	uploaded_on = models.DateTimeField(auto_now_add=True)
 
 	def __str__(self):
