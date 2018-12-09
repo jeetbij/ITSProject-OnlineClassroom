@@ -20,4 +20,4 @@ class AnnouncementSerializer(ModelSerializer):
 			'commentCount',
 			'created_on',
 			]
-		read_only_fields = ['id', 'created_on', 'announcer', 'commentCount']
+		read_only_fields = ['id', 'created_on', 'commentCount']

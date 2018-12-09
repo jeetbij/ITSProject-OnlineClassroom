@@ -8,15 +8,25 @@ class Notification(models.Model):
 	receiver = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="receiver")
 	text = models.CharField(max_length=250, null=True, blank=True)
 
-	NOTIFICATION_TYPE =[('C', 'Classroom'),
-	    				('AN', 'Announcement'),
-	    				('AS', 'Assignment'),
-	    				('R', 'Resources'),
-						('P', 'Poll'),
-						('CR', 'CommentReply')]
+	C = 'Classroom'
+	AN = 'Announcement'
+	AS = 'Assignment'
+	R = 'Resources'
+	P = 'Poll'
+	CR = 'CommentReply'
+
+	NOTIFICATION_TYPE =(
+		(C, 'Classroom'),
+		(AN, 'Announcement'),
+		(AS, 'Assignment'),
+		(R, 'Resources'),
+		(P, 'Poll'),
+		(CR, 'CommentReply')
+	)
 
 	notification_type = models.CharField(max_length=5, choices=NOTIFICATION_TYPE, default='C')				
 	created_at = models.DateTimeField(auto_now_add=True, blank=True)
-	
+	read = models.BooleanField(default=False)
+
 	def __str__(self):
-		return str(self.actor.username) + ' -- ' +str(self.actor.username) + ' -- ' + str(self.created_at)
+		return str(self.actor.username) + ' -- ' +str(self.receiver.username) + ' -- ' + str(self.created_at)

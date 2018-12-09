@@ -12,6 +12,8 @@ from Classroom.serializers import ClassroomSerializer
 from Comment.models import Comment
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
+from Notifications.views import Notify
+from Notifications.models import Notification
 
 class AnnouncementView(APIView):
 	permission_classes = (IsAuthenticated, )
@@ -42,6 +44,7 @@ class AnnouncementView(APIView):
 				serializer = AnnouncementSerializer(data=request.data)
 				if serializer.is_valid():
 					serializer.save(announcer=request.user, classroom=classroom)
+					# Notify(sender=request.user, receiver=[request.user, request.user], type=Notification.C, text="New announcement.")
 					return Response(serializer.data)
 				else:
 					return Response(serializer.errors)
@@ -50,6 +53,7 @@ class AnnouncementView(APIView):
 					"error": "You aren't authorized to add data in this classroom."
 					}, status = status.HTTP_400_BAD_REQUEST)
 		except Exception as e:
+			print(e)
 			return Response({
 				"error": "Classroom query doesn't exists."
 				}, status=status.HTTP_400_BAD_REQUEST)
