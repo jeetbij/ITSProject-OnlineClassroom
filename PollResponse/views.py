@@ -11,10 +11,9 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from AuthUser.serializers import UserSerializer
 from PollResponse.serializers import PollResponseSerializer
-from Polls.serializers import PollOptionSerializer
 
 class PollResponseView(APIView):
-	# permission_classes = (IsAuthenticated, )
+	permission_classes = (IsAuthenticated, )
 
 	def get(self, request, format=None):
 		'''To get responses 
@@ -23,13 +22,9 @@ class PollResponseView(APIView):
 
 		try:
 			poll_id = request.GET.get('poll_id')
-			poll = Poll.objects.get(id=poll_id)
-			poll_options = PollOption.objects.filter(parrent_poll=poll)
-			options_serialized = PollOptionSerializer(poll_options, many=True).data
-			poll_responses = PollResponse.objects.filter(poll=poll)
-			poll_responses_serialized = PollResponseSerializer(poll_responses,many=True).data
-			options_serialized['responses'] = poll_responses_serialized
-			return Response(options_serialized)
+			poll_responses = PollResponse.objects.filter(poll__id=poll_id)
+			poll_responses_serialized = PollResponseSerializer(poll_responses, many=True).data
+			return Response(poll_responses_serialized)
 		except Exception as e:
 			return Response({
 				"error": "Poll Response query for this poll doesn't exists."
@@ -59,7 +54,6 @@ class PollResponseView(APIView):
 				return Response(poll_response_serialized)
 			except Exception as e:
 				return Response({
-
 					"error": "Poll Response query for this poll or poll_option doesn't exists."
 					}, status=status.HTTP_400_BAD_REQUEST)
 
