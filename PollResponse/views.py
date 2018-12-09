@@ -11,10 +11,10 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from AuthUser.serializers import UserSerializer
 from PollResponse.serializers import PollResponseSerializer
-from Poll.serializers import PollOptionSerializer
+from Polls.serializers import PollOptionSerializer
 
 class PollResponseView(APIView):
-	permission_classes = (IsAuthenticated, )
+	# permission_classes = (IsAuthenticated, )
 
 	def get(self, request, format=None):
 		'''To get responses 
