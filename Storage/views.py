@@ -90,6 +90,7 @@ class UploadDocumentView(APIView):
 					"error": "You are not authorized to delete this document."
 					}, status=status.HTTP_400_BAD_REQUEST)
 		except Exception as e:
+			print(e)
 			return Response({
 				"error": "Document does not exists."
 				}, status=status.HTTP_400_BAD_REQUEST)			

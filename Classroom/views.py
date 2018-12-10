@@ -18,8 +18,8 @@ class ClassroomView(APIView):
 		return classrooms where the user enrolled as faculty, moderator and student'''
 
 		classroom = Classroom.objects.filter(creator__username=request.user.username)
-		classroom_moderator = Classroom.objects.filter(moderators=request.user)
-		classroom_student = Classroom.objects.filter(students=request.user)
+		classroom_moderator = Classroom.objects.filter(moderators=request.user, is_active=True)
+		classroom_student = Classroom.objects.filter(students=request.user, is_active=True)
 		serializer = ClassroomSerializer(classroom, many=True)
 		serializer_student = ClassroomSerializer(classroom_student, many=True)
 		serializer_moderator = ClassroomSerializer(classroom_moderator, many=True)
@@ -88,7 +88,10 @@ class ClassroomView(APIView):
 		try:
 			classroom = Classroom.objects.get(id=classroom_id)
 			if request.user.username == classroom.creator.username:
-				classroom.is_active = False
+				if classroom.is_active == True:
+					classroom.is_active = False
+				else:
+					classroom.is_active = True
 				classroom.save()
 				return Response({
 					"success": "Classroom successfully deleted."

@@ -10,7 +10,11 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from AuthUser.serializers import UserSerializer
 import threading
+import sendgrid
+from sendgrid.helpers.mail import *
 # Create your views here.
+
+SENDGRID_APIKEY = "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"
 
 class NotificationView(APIView):
 	permission_classes = (IsAuthenticated, )
@@ -63,6 +67,29 @@ def Notify(sender, text, type, receiver=None):
 				"receiver":re,
 				"text":text,
 				"type": type
+			})
+		thread_process.start()
+	return True
+
+
+def mail(recipient, subject, body):
+	sg = sendgrid.SendGridAPIClient(apikey=SENDGRID_APIKEY)
+	from_email = Email("chandrajeet.c16@iiits.in")
+	to_email = Email(recipient)
+	subject = subject
+	content = Content("text/plain", body)
+	mail = Mail(from_email, subject, to_email, content)
+	response = sg.client.mail.send.post(request_body=mail.get())
+	# print(response.status_code)
+	# print(response.body)
+	# print(response.headers)
+
+def sendMail(recipient, subject, body):
+	for re in recipient:
+		thread_process = threading.Thread(target=mail, kwargs={
+				"recipient":re,
+				"subject":subject,
+				"body":body
 			})
 		thread_process.start()
 	return True
