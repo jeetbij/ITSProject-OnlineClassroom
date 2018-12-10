@@ -73,7 +73,7 @@ class SubmissionView(APIView):
 		try:
 			assignment = Assignment.objects.get(id=assignment_id)
 			if request.user.username == assignment.classroom.creator.username:
-				submissions = Submission.objects.filter(assignment__id=assignment.id)
+				submissions = Submission.objects.filter(assignment__id=assignment.id).order_by('score')
 				serialized_submissions = SubmissionSerializer(submissions, many=True)
 				return Response(serialized_submissions.data)
 			else:
