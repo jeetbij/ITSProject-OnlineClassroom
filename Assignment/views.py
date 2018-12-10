@@ -10,6 +10,8 @@ from Comment.serializers import CommentSerializer
 
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
+from Notifications.views import Notify, sendMail 
+from Notifications.models import Notification
 # Create your views here.
 
 class AssignmentView(APIView):
@@ -48,6 +50,11 @@ class AssignmentView(APIView):
 				uploader = request.user
 				if serializer.is_valid():
 					serializer.save(uploader=uploader, classroom=classroom)
+					print(serializer.data)
+					students = classroom.students.all()
+					msg = "A new assignment is posted in "+ str(classroom.name) +"."
+					Notify(sender=request.user, receiver=[student for student in students], type=Notification.AN, text=msg)
+					sendMail(recipient=[student.email for student in students],subject="Aphlabet Notification",body= msg )
 					return Response(serializer.data)
 				else:
 					return Response(serializer.errors)
@@ -56,6 +63,7 @@ class AssignmentView(APIView):
 					"error": "Only classroom owner can upload assignment."
 					}, status=status.HTTP_400_BAD_REQUEST)
 		except Exception as e:
+			print(e)
 			return Response({
 				"error": "Classroom query doesn't exists."
 				}, status=status.HTTP_400_BAD_REQUEST)

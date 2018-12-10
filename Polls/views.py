@@ -13,6 +13,8 @@ from rest_framework import status
 from AuthUser.serializers import UserSerializer
 from Polls.serializers import PollSerializer,PollOptionSerializer
 from PollResponse.serializers import PollResponseSerializer
+from Notifications.views import Notify, sendMail 
+from Notifications.models import Notification
 # Create your views here.
 class PollView(APIView):
 	permission_classes = (IsAuthenticated, )
@@ -74,6 +76,12 @@ class PollView(APIView):
 				poll.poll_text = request.data.get('poll_text')
 				poll.save()
 				poll_serialized = PollSerializer(poll,many=False).data
+
+				students = classroom.students.all()
+				msg = "A new poll is posted in "+ str(classroom.name) +"."
+				Notify(sender=request.user, receiver=[student for student in students], type=Notification.P, text=msg)
+				sendMail(recipient=[student.email for student in students],subject="Aphlabet Notification",body= msg )
+				
 				return Response(poll_serialized)
 			elif(query_type==2):
 				parrent_poll_id = request.data.get('parent_poll_id')
@@ -88,6 +96,7 @@ class PollView(APIView):
 			}, status=status.HTTP_400_BAD_REQUEST)
 
 		except Exception as e:
+			print(e)
 			return Response({
 				"error": "Classroom query for polls doesn't exists."
 			}, status=status.HTTP_400_BAD_REQUEST)

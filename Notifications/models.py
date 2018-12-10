@@ -6,7 +6,7 @@ from django.db import models
 class Notification(models.Model):
 	actor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="actor")
 	receiver = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="receiver")
-	text = models.CharField(max_length=250, null=True, blank=True)
+	text = models.CharField(max_length=2000, null=True, blank=True)
 
 	C = 'Classroom'
 	AN = 'Announcement'
@@ -24,7 +24,7 @@ class Notification(models.Model):
 		(CR, 'CommentReply')
 	)
 
-	notification_type = models.CharField(max_length=5, choices=NOTIFICATION_TYPE, default='C')				
+	notification_type = models.CharField(max_length=50, choices=NOTIFICATION_TYPE, default='C')				
 	created_at = models.DateTimeField(auto_now_add=True, blank=True)
 	read = models.BooleanField(default=False)
 

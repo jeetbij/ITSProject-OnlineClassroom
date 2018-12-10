@@ -56,9 +56,10 @@ def saveNotification(sender, receiver, text, type):
 		notification.receiver = receiver
 		notification.text = text
 		notification.notification_type = type
+		print(notification)
 		notification.save()
-	except:
-		pass
+	except Exception as e:
+		print(e)
 
 def Notify(sender, text, type, receiver=None):
 	for re in receiver:
