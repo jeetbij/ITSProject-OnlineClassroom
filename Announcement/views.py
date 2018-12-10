@@ -44,7 +44,9 @@ class AnnouncementView(APIView):
 				serializer = AnnouncementSerializer(data=request.data)
 				if serializer.is_valid():
 					serializer.save(announcer=request.user, classroom=classroom)
-					# Notify(sender=request.user, receiver=[request.user, request.user], type=Notification.C, text="New announcement.")
+					students = classroom.students.all()
+					msg = "A new announcement is posted in "+ str(classroom.name) +"."
+					Notify(sender=request.user, receiver=[student for student in students], type=Notification.C, text=msg)
 					return Response(serializer.data)
 				else:
 					return Response(serializer.errors)
@@ -69,6 +71,9 @@ class AnnouncementView(APIView):
 			if request.user.username == announcement.announcer.username:
 				announcement.content = request.data.get('content')
 				announcement.save()
+				students = announcement.classroom.students.all()
+				msg = "A announcement is updated in "+ str(classroom.name) +"."
+				Notify(sender=request.user, receiver=[student for student in students], type=Notification.C, text=msg)
 				announcement_serializer = AnnouncementSerializer(announcement, many=False).data
 				return Response(announcement_serializer)
 			return Response({

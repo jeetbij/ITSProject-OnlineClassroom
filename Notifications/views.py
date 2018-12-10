@@ -28,10 +28,15 @@ class NotificationView(APIView):
 	def put(self, request, format=None):
 		try:
 			notification = Notification.objects.get(id=request.GET.get('notification_id'))
-			notification.read = True
-			notification.save()
-			serialized_notification = NotificationSerializer(notification, many=False).data
-			return Response(serialized_notification)
+			if request.user == notification.receiver:
+				notification.read = True
+				notification.save()
+				serialized_notification = NotificationSerializer(notification, many=False).data
+				return Response(serialized_notification)
+			else:
+				return Response({
+				"error": "You are not authorized to change this notification."
+				}, status=status.HTTP_400_BAD_REQUEST)
 		except Exception as e:
 			print (e)
 			return Response({

@@ -7,10 +7,10 @@ from django.utils import timezone
 # Create your models here.
 
 def assignment_upload_path(instance, filename):
-	return 'Assignments/{0}'.format(instance.uploader.username, filename)
+	return 'Assignments/{0}/{1}'.format(instance.uploader.username, filename)
 
 def submission_upload_path(instance, filename):
-	return 'Submission/{0}_{1}'.format(instance.assignment.id, instance.assignment.title, filename)
+	return 'Submission/{0}_{1}/{2}'.format(instance.assignment.id, instance.assignment.title, filename)
 
 class Assignment(models.Model):
 	title = models.CharField(max_length=50, null=True, blank=True)
