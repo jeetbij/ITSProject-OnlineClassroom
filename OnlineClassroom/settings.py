@@ -112,16 +112,16 @@ DATABASES = {
     }
 }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'OnlineClassroom',
-#         'USER': 'garvit',
-#         'PASSWORD': 'qazwsxedc',
-#         'HOST': '35.202.115.150',
-#         'PORT': 3306,
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'OnlineClassroom',
+        'USER': 'its',
+        'PASSWORD': 'qazwsxedc',
+        'HOST': 'localhost',
+        'PORT': 3306,
+    }
+}
 
 # DATABASES = {
 #     'default': {

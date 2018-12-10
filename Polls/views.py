@@ -102,8 +102,40 @@ class PollView(APIView):
 		return Response("Poll deleted")
 
 
+class PollDetail(APIView):
+	permission_classes = (IsAuthenticated, )
 
+	def get(self, request, format=None):
+		''' To get polls and its poll options from a class.
+		Takes classroom_id
+		Return poll list with its options'''
+		try:
+			poll_id = request.GET.get('poll_id')
+			poll_options = PollOption.objects.filter(parrent_poll__id=poll_id) 
+			res = []
+			op = []
+			count = []
+			for option in poll_options:
+				op.append(str(option.option_text))
+				count.append(0)
+			print(op, count)
+			poll_responses=PollResponse.objects.filter(poll__id=poll_id)
+			for poll_response in poll_responses:
+				for o in op:
+					i=0
+					if str(poll_response) == str(o):
+						count[i]+=1
+						break
+					i+=1
+			i=0
+			for co in count:
+				res.append({str(op[i]):count[i]})
+				i+=1
+			print(res)
 
-
-
-
+			return Response(res
+				, status=status.HTTP_200_OK)
+		except Exception as e:
+			return Response({
+				"error": "Classroom query for polls doesn't exists."
+				}, status=status.HTTP_400_BAD_REQUEST)
