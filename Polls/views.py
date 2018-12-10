@@ -137,7 +137,7 @@ class PollDetail(APIView):
 					i+=1
 			i=0
 			for co in count:
-				res.append({str(op[i]):count[i]})
+				res.append({'name':str(op[i]), 'count':count[i]})
 				i+=1
 			
 			return Response(res
