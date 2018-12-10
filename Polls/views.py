@@ -127,12 +127,11 @@ class PollDetail(APIView):
 			for option in poll_options:
 				op.append(str(option.option_text))
 				count.append(0)
-			print(op, count)
 			poll_responses=PollResponse.objects.filter(poll__id=poll_id)
 			for poll_response in poll_responses:
+				i=0
 				for o in op:
-					i=0
-					if str(poll_response) == str(o):
+					if str(poll_response.poll_option.option_text) == str(o):
 						count[i]+=1
 						break
 					i+=1
@@ -140,8 +139,7 @@ class PollDetail(APIView):
 			for co in count:
 				res.append({str(op[i]):count[i]})
 				i+=1
-			print(res)
-
+			
 			return Response(res
 				, status=status.HTTP_200_OK)
 		except Exception as e:
