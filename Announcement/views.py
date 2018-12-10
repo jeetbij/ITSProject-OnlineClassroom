@@ -12,7 +12,7 @@ from Classroom.serializers import ClassroomSerializer
 from Comment.models import Comment
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
-from Notifications.views import Notify
+from Notifications.views import Notify, sendMail 
 from Notifications.models import Notification
 
 class AnnouncementView(APIView):
@@ -46,7 +46,8 @@ class AnnouncementView(APIView):
 					serializer.save(announcer=request.user, classroom=classroom)
 					students = classroom.students.all()
 					msg = "A new announcement is posted in "+ str(classroom.name) +"."
-					Notify(sender=request.user, receiver=[student for student in students], type=Notification.C, text=msg)
+					Notify(sender=request.user, receiver=[student for student in students], type=Notification.AN, text=msg)
+					sendMail(recipient=[student.email for student in students],subject="Aphlabet Notification",body= msg )
 					return Response(serializer.data)
 				else:
 					return Response(serializer.errors)
