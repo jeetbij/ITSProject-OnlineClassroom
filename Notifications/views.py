@@ -20,32 +20,32 @@ class NotificationView(APIView):
 	permission_classes = (IsAuthenticated, )
 
 	def get(self, request, format=None):
-		try:
-			notification=Notification.objects.filter(receiver=request.user)
-			serialized_notification = NotificationSerializer(notification,many=True).data
-			return Response(serialized_notification)
-		except Exception as e:
-			return Response({
-				"error": "Something went wrong."
-				}, status=status.HTTP_400_BAD_REQUEST)
-
-	def put(self, request, format=None):
-		try:
-			notification = Notification.objects.get(id=request.GET.get('notification_id'))
-			if request.user == notification.receiver:
-				notification.read = True
-				notification.save()
-				serialized_notification = NotificationSerializer(notification, many=False).data
+		if not request.GET.get('notification_id'):
+			try:
+				notification=Notification.objects.filter(receiver=request.user)[::-1]
+				serialized_notification = NotificationSerializer(notification,many=True).data
 				return Response(serialized_notification)
-			else:
+			except Exception as e:
 				return Response({
-				"error": "You are not authorized to change this notification."
-				}, status=status.HTTP_400_BAD_REQUEST)
-		except Exception as e:
-			print (e)
-			return Response({
-				"error": "Notification doesn't exists."
-				}, status=status.HTTP_400_BAD_REQUEST)
+					"error": "Something went wrong."
+					}, status=status.HTTP_400_BAD_REQUEST)
+		else:
+			try:
+				notification = Notification.objects.get(id=request.GET.get('notification_id'))
+				if request.user == notification.receiver:
+					notification.read = True
+					notification.save()
+					serialized_notification = NotificationSerializer(notification, many=False).data
+					return Response(serialized_notification)
+				else:
+					return Response({
+					"error": "You are not authorized to change this notification."
+					}, status=status.HTTP_400_BAD_REQUEST)
+			except Exception as e:
+				print (e)
+				return Response({
+					"error": "Notification doesn't exists."
+					}, status=status.HTTP_400_BAD_REQUEST)
 
 
 
