@@ -1,4 +1,45 @@
-# ITSProject-OnlineClassroom
+# Offline Classroom System
+
+### Problem
+Many of the Professors in at our Institute(IIIT Sri City) use web services like Google Classroom for their courses. The problem here is:
+
+1. A lot of bandwidth is used to upload/download lectures, Assignments etc.
+
+2. Our Institute wants to come up with rules to allocate storage to the students.
+
+To solve this problem we developed Offline Classroom which is hosted locally to our Institute servers.
+
+
+### Offline Classroom System as a Solution
+• The aim to simplify creating, distributing and grading assignments in a paperless way.
+
+• Initiative to provide a solution to high bandwidth usage of web services like google classroom by running the servers on localhost.
+
+• Streamline the process of sharing files between teachers and students by allocating dedicated storage to the students.
+
+• Used by 200+ targeted students, researchers who have actively volunteered to be a part of Aphlabet.
+
+<hr>
+
+<b>TechStack:</b> Vue.js, Django, REST, MySQL
+
+<b> Client-side VueJs Code:</b> https://github.com/AnubhavUjjawal/Aphlabet
+
+<b> Backend Django Code:</b> https://github.com/Jeet-007/ITSProject-OnlineClassroom
+
+<hr>
+
+A Demo is hosted here: http://35.200.250.64
+
+Login Details:
+
+Username: uma_garimella
+
+Password: qazwsxedc
+
+<hr>
+
+## API Documentation
 
 <h3>1. To get JWT Token :</h3>
 
