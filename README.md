@@ -29,7 +29,7 @@ To solve this problem we developed Offline Classroom which is hosted locally to 
 
 <hr>
 
-A Demo is hosted here: http://35.200.250.64
+A Demo is hosted here: http://34.93.45.49
 
 Login Details:
 
