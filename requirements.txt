@@ -33,7 +33,7 @@ Pyphen==0.9.5
 python-http-client==3.1.0
 pytz==2018.5
 query-string==1.0.2
-reportlab==3.5.10
+reportlab==3.5.55
 request==1.0.2
 requests==2.20.1
 sendgrid==5.6.0
